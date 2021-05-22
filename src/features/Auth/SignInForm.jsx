@@ -7,74 +7,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
+import InputField from '../../components/form-controls/InputField';
+import PasswordField from '../../components/form-controls/PasswordField';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import InputField from '../../components/form-controls/InputField';
-import PasswordField from '../../components/form-controls/PasswordField';
-
-SignInForm.propTypes = {
-  onSubmit: PropTypes.func,
-};
-
-function SignInForm(props) {
-  const classes = useStyles();
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .required('Please enter your email')
-      .email('Please enter a valid email'),
-    password: yup.string().required('Please enter your password'),
-  });
-  const form = useForm({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-    resolver: yupResolver(schema),
-  });
-
-  const handleSubmit = (values) => {
-    const { onSubmit } = props;
-    if (onSubmit) {
-      onSubmit(values);
-    }
-  };
-
-  const { isSubmitting } = form.formState;
-
-  return (
-    <div className={classes.root}>
-      {isSubmitting && <LinearProgress className={classes.progress} />}
-
-      <Avatar className={classes.avatar}>
-        <LockOutlined />
-      </Avatar>
-
-      <Typography className={classes.title} component="h3" variant="h5">
-        SIGN IN
-      </Typography>
-
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <InputField name="email" label="Email" form={form} />
-        <PasswordField name="password" label="Password" form={form} />
-
-        <Button
-          //disabled={isSubmitting}
-          type="submit"
-          className={classes.submit}
-          variant="contained"
-          color="primary"
-          fullWidth
-          size="large"
-        >
-          Sign in
-        </Button>
-      </form>
-    </div>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,5 +38,68 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
   },
 }));
+
+SignInForm.propTypes = {
+  onSubmit: PropTypes.func,
+};
+
+function SignInForm(props) {
+  const classes = useStyles();
+
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .required('Please enter your email')
+      .email('Please enter a valid email'),
+    password: yup.string().required('Please enter your password'),
+  });
+
+  const form = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(schema),
+  });
+
+  const handleSubmit = async (values) => {
+    const { onSubmit } = props;
+    if (onSubmit) {
+      await onSubmit(values);
+    }
+  };
+
+  const { isSubmitting } = form.formState;
+
+  return (
+    <div className={classes.root}>
+      {isSubmitting && <LinearProgress className={classes.progress} />}
+
+      <Avatar className={classes.avatar}>
+        <LockOutlined />
+      </Avatar>
+      <Typography className={classes.title} component="h3" variant="h5">
+        SIGN IN
+      </Typography>
+
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <InputField name="email" label="Email" form={form} />
+        <PasswordField name="password" label="Password" form={form} />
+
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className={classes.submit}
+          variant="contained"
+          color="primary"
+          fullWidth
+          size="large"
+        >
+          Sign in
+        </Button>
+      </form>
+    </div>
+  );
+}
 
 export default SignInForm;

@@ -7,18 +7,9 @@ SignIn.propTypes = {
 };
 
 function SignIn(props) {
-  const handleSubmit = (values) => {
-    console.log(values);
-
-    const { closeDialog } = props;
-    if (closeDialog) {
-      closeDialog();
-    }
-  };
-
   return (
     <div>
-      <SignInForm onSubmit={handleSubmit} />
+      <SignInForm />
     </div>
   );
 }

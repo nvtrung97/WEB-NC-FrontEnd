@@ -1,16 +1,11 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  IconButton,
-  makeStyles,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
+import { Box, IconButton, Menu, MenuItem } from '@material-ui/core';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import { makeStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import { AccountCircle, Close } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -18,19 +13,25 @@ import SignIn from '../../features/Auth/SignIn';
 import SignUp from '../../features/Auth/SignUp';
 
 const MODE = {
-  SignUp: 'signup',
-  SignIn: 'signin',
+  LOGIN: 'login',
+  REGISTER: 'register',
 };
 
-const Header = () => {
-  const [isAuth, setIsAuth] = useState(true);
-  const [anchorEl, setAnchorEl] = useState(null);
+export default function Header() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  // const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  const handleOpenMenu = (e) => {
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleUserClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
 
@@ -38,44 +39,42 @@ const Header = () => {
     setAnchorEl(null);
   };
 
-  const handleOpenForm = () => {
-    setOpen(true);
-  };
-
-  const handleCloseForm = () => {
-    setOpen(false);
-  };
-
-  // const handleLogin = () => {
-  //   setIsAuth(true);
-  // };
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setIsLoggedIn(false);
     setAnchorEl(null);
-    setIsAuth(false);
   };
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed">
+      <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Link className={classes.link} to="/">
               HOME
             </Link>
           </Typography>
-          {!isAuth && (
+
+          {/* <NavLink className={classes.link} to="/todos">
+            <Button color="inherit">Todos</Button>
+          </NavLink>
+          <NavLink className={classes.link} to="/albums">
+            <Button color="inherit">Albums</Button>
+          </NavLink> */}
+
+          {!isLoggedIn && (
             <Button
-              variant="contained"
               color="secondary"
-              onClick={handleOpenForm}
+              variant="contained"
+              onClick={handleClickOpen}
             >
               Log in
             </Button>
           )}
-          {isAuth && (
-            <IconButton color="inherit" onClick={handleOpenMenu}>
+
+          {isLoggedIn && (
+            <IconButton color="inherit" onClick={handleUserClick}>
               <AccountCircle />
             </IconButton>
           )}
@@ -97,37 +96,39 @@ const Header = () => {
         }}
         getContentAnchorEl={null}
       >
-        <MenuItem onClick={handleCloseMenu}>My Profile</MenuItem>
-        <MenuItem onClick={handleLogout}>Log out</MenuItem>
+        <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+        <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
       </Menu>
 
       <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
         open={open}
-        onClose={handleCloseForm}
+        onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <IconButton onClick={handleCloseForm} className={classes.closeButton}>
+        <IconButton onClick={handleClose} className={classes.closeButton}>
           <Close />
         </IconButton>
 
         <DialogContent>
-          {mode === MODE.SignUp && (
+          {mode === MODE.REGISTER && (
             <>
-              <SignUp closeDialog={handleCloseForm} />
+              <SignUp closeDialog={handleClose} />
 
               <Box textAlign="center">
-                <Button color="primary" onClick={() => setMode(MODE.SignIn)}>
+                <Button color="primary" onClick={() => setMode(MODE.LOGIN)}>
                   Already have an account. Login here
                 </Button>
               </Box>
             </>
           )}
-          {mode === MODE.SignIn && (
+          {mode === MODE.LOGIN && (
             <>
-              <SignIn closeDialog={handleCloseForm} />
+              <SignIn closeDialog={handleClose} />
 
               <Box textAlign="center">
-                <Button color="primary" onClick={() => setMode(MODE.SignUp)}>
+                <Button color="primary" onClick={() => setMode(MODE.REGISTER)}>
                   Don't have an account. Register here
                 </Button>
               </Box>
@@ -137,13 +138,15 @@ const Header = () => {
       </Dialog>
     </div>
   );
-};
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
   title: {
     flexGrow: 1,
   },
@@ -159,5 +162,3 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
   },
 }));
-
-export default Header;

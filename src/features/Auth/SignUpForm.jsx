@@ -1,18 +1,44 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Avatar,
   Button,
   LinearProgress,
   makeStyles,
+  TextField,
   Typography,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import InputField from '../../components/form-controls/InputField';
 import PasswordField from '../../components/form-controls/PasswordField';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    position: 'relative',
+    paddingTop: theme.spacing(4),
+  },
+  avatar: {
+    margin: '0 auto',
+    backgroundColor: theme.palette.secondary.main,
+  },
+  title: {
+    textAlign: 'center',
+    margin: theme.spacing(2, 0, 3, 0),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2, 0),
+  },
+
+  progress: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    left: 0,
+    right: 0,
+  },
+}));
 
 SignUpForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -24,7 +50,7 @@ function SignUpForm(props) {
   const schema = yup.object().shape({
     email: yup
       .string()
-      .required('Please enter your email.')
+      .required('Please enter your email')
       .email('Please enter a valid email'),
     password: yup
       .string()
@@ -32,19 +58,13 @@ function SignUpForm(props) {
       .min(6, 'Please enter at least 6 characters'),
     full_name: yup
       .string()
-      .required('Please enter your full name.')
+      .required('Please enter your fullname.')
       .test(
-        'Should have at least 2 words',
+        'should have at least 2 words',
         'Please enter at least 2 words',
         (value) => value.split(' ').length >= 2
       ),
-    phone: yup
-      .string()
-      .matches(
-        /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/,
-        'Please enter a valid phone number with 10 digits',
-        { excludeEmptyString: true }
-      ),
+    phone: yup.string(),
     address: yup.string(),
     birthday: yup.string(),
   });
@@ -80,53 +100,38 @@ function SignUpForm(props) {
         Create an Account
       </Typography>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <InputField name="email" label="Email" form={form} />
         <PasswordField name="password" label="Password" form={form} />
-        <InputField name="fullname" label="Full name" form={form} />
-        <InputField name="phone" label="Phone" form={form} />
+        <InputField name="fullname" label="Full Name" form={form} />
+        <InputField name="phone" label="Phone Number" form={form} />
         <InputField name="address" label="Address" form={form} />
-        <InputField name="birthday" label="Birthday" form={form} />
-      </form>
+        <TextField
+          name="birthday"
+          label="Birthday"
+          type="date"
+          defaultValue={Date.now()}
+          form={form}
+          fullWidth
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
 
-      <Button
-        disabled={isSubmitting}
-        type="submit"
-        className={classes.submit}
-        variant="contained"
-        color="primary"
-        fullWidth
-        size="large"
-      >
-        Create an account
-      </Button>
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className={classes.submit}
+          variant="contained"
+          color="primary"
+          fullWidth
+          size="large"
+        >
+          Create an account
+        </Button>
+      </form>
     </div>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    position: 'relative',
-    paddingTop: theme.spacing(4),
-  },
-  avatar: {
-    margin: '0 auto',
-    backgroundColor: theme.palette.secondary.main,
-  },
-  title: {
-    textAlign: 'center',
-    margin: theme.spacing(2, 0, 3, 0),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2, 0),
-  },
-
-  progress: {
-    position: 'absolute',
-    top: theme.spacing(1),
-    left: 0,
-    right: 0,
-  },
-}));
 
 export default SignUpForm;
