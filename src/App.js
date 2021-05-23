@@ -1,7 +1,13 @@
-import Header from './components/Header/Header';
+import { AuthProvider } from "./contexts/auth.context";
+import Routes from './components/index';
 
 function App() {
-  return <Header />;
+  
+  return (
+    <AuthProvider>
+      <Routes />
+    </AuthProvider>
+    )
 }
 
 export default App;

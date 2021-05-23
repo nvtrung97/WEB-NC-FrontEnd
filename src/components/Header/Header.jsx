@@ -9,8 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import { AccountCircle, Close } from '@material-ui/icons';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SignIn from '../../features/Auth/SignIn';
-import SignUp from '../../features/Auth/SignUp';
+import { useAuth } from "../../contexts/auth.context";
+import SignIn from '../Auth/SignIn';
+import SignUp from '../Auth/SignUp';
+
 
 const MODE = {
   LOGIN: 'login',
@@ -18,11 +20,12 @@ const MODE = {
 };
 
 export default function Header() {
+  const context = useAuth();
+  const { authenticated, user } = context;
+  console.log('user:', user);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -40,8 +43,8 @@ export default function Header() {
   };
 
   const handleLogoutClick = () => {
-    setIsLoggedIn(false);
-    setAnchorEl(null);
+    context.signOut();
+    return window.location.reload();
   };
 
   const classes = useStyles();
@@ -63,7 +66,7 @@ export default function Header() {
             <Button color="inherit">Albums</Button>
           </NavLink> */}
 
-          {!isLoggedIn && (
+          {!authenticated && (
             <Button
               color="secondary"
               variant="contained"
@@ -73,7 +76,7 @@ export default function Header() {
             </Button>
           )}
 
-          {isLoggedIn && (
+          {authenticated && (
             <IconButton color="inherit" onClick={handleUserClick}>
               <AccountCircle />
             </IconButton>
