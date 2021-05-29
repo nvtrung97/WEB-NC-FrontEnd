@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { useAuth } from "../../contexts/auth.context";
+import { useAuth } from '../../contexts/auth.context';
 import _ from 'lodash';
 import { BoxLoading } from 'react-loadingg';
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ SignInForm.propTypes = {
 };
 
 function SignInForm(props) {
-  const [messageNotify, setmessageNotify] = useState('');
+  const [messageNotify, setMessageNotify] = useState('');
   const [loading, setLoading] = useState(false);
   const context = useAuth();
   const classes = useStyles();
@@ -74,30 +74,32 @@ function SignInForm(props) {
       await onSubmit(values);
     }
     let entity = {
-      "login_type": "auth",
-      "email": values.email,
-      "password": values.password,
-      "token_id": ''
-    }
-    context.signIn(entity).catch((error) => {
-      setLoading(false);
-      console.log(error.response);
-      if (_.has(error, 'response'))
-        if (error.response.data.message.includes('Password')) {
-          setmessageNotify('Password incorrect');
-        } else setmessageNotify('Email does not exist');
-
-    }).then((res) => {
-      if (_.has(res, 'status'))
-        if (res.status == 201) window.location.reload();
-    })
+      login_type: 'auth',
+      email: values.email,
+      password: values.password,
+      token_id: '',
+    };
+    context
+      .signIn(entity)
+      .catch((error) => {
+        setLoading(false);
+        console.log(error.response);
+        if (_.has(error, 'response'))
+          if (error.response.data.message.includes('Password')) {
+            setMessageNotify('Password incorrect');
+          } else setMessageNotify('Email does not exist');
+      })
+      .then((res) => {
+        if (_.has(res, 'status'))
+          if (res.status === 201) window.location.reload();
+      });
   };
 
   const { isSubmitting } = form.formState;
 
   return (
     <div>
-      {(loading == true) ? <BoxLoading /> : ''}
+      {loading === true ? <BoxLoading /> : ''}
       <div className={classes.root}>
         {isSubmitting && <LinearProgress className={classes.progress} />}
 
@@ -106,15 +108,12 @@ function SignInForm(props) {
         </Avatar>
         <Typography className={classes.title} component="h3" variant="h5">
           SIGN IN
-      </Typography>
-
+        </Typography>
 
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <InputField name="email" label="Email" form={form} />
           <PasswordField name="password" label="Password" form={form} />
-          <label>
-            {messageNotify}
-          </label>
+          <label>{messageNotify}</label>
           <Button
             disabled={isSubmitting}
             type="submit"
@@ -125,8 +124,7 @@ function SignInForm(props) {
             size="large"
           >
             Sign in
-        </Button>
-
+          </Button>
         </form>
       </div>
     </div>
