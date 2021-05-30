@@ -8,11 +8,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { AccountCircle, Close } from '@material-ui/icons';
 import React, { useState } from 'react';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useAuth } from "../../contexts/auth.context";
+import { useAuth } from '../../contexts/auth.context';
+import { useCategory } from '../../contexts/category-context';
 import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
-
 
 const MODE = {
   LOGIN: 'login',
@@ -20,12 +21,16 @@ const MODE = {
 };
 
 export default function Header() {
-  const context = useAuth();
-  const { authenticated, user } = context;
-  console.log('user:', user);
+  const AuthContext = useAuth();
+  const { authenticated } = AuthContext;
+  const catCtx = useCategory();
+  const { categories } = catCtx;
+  console.log(categories);
+
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
   const [anchorEl, setAnchorEl] = useState(null);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -43,7 +48,7 @@ export default function Header() {
   };
 
   const handleLogoutClick = () => {
-    context.signOut();
+    AuthContext.signOut();
     return window.location.reload();
   };
 
@@ -59,12 +64,16 @@ export default function Header() {
             </Link>
           </Typography>
 
-          {/* <NavLink className={classes.link} to="/todos">
-            <Button color="inherit">Todos</Button>
-          </NavLink>
-          <NavLink className={classes.link} to="/albums">
-            <Button color="inherit">Albums</Button>
-          </NavLink> */}
+          <DropdownButton title="Categories" className={classes.categories}>
+            {categories.map((item) => (
+              <div key={item._id}>
+                <Dropdown.Item>{item.name}</Dropdown.Item>
+                {categories.indexOf(item) !== categories.length - 1 && (
+                  <Dropdown.Divider />
+                )}
+              </div>
+            ))}
+          </DropdownButton>
 
           {!authenticated && (
             <Button
@@ -147,15 +156,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   title: {
-    flexGrow: 1,
+    marginRight: theme.spacing(3),
   },
   link: {
     color: '#fff',
     textDecoration: 'none',
+  },
+  categories: {
+    color: 'inherit',
+    marginRight: 'auto',
   },
   closeButton: {
     position: 'absolute',

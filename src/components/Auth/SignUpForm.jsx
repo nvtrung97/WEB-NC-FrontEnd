@@ -1,4 +1,3 @@
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Avatar,
@@ -6,7 +5,7 @@ import {
   LinearProgress,
   makeStyles,
   Typography,
-  TextField
+  TextField,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import InputField from '../form-controls/InputField';
@@ -15,7 +14,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { useAuth } from "../../contexts/auth.context";
+import { useAuth } from '../../contexts/auth.context';
 import _ from 'lodash';
 import { BoxLoading } from 'react-loadingg';
 const useStyles = makeStyles((theme) => ({
@@ -61,11 +60,11 @@ function SignUpForm(props) {
       .string()
       .required('Please enter your email')
       .email('Please enter a valid email'),
-    password: yup.string()
+    password: yup
+      .string()
       .required('Please enter your password')
       .min(6, 'Please enter at least 6 characters'),
-    full_name: yup.string()
-      .required('Please enter your full name'),
+    full_name: yup.string().required('Please enter your full name'),
   });
 
   const form = useForm({
@@ -77,28 +76,31 @@ function SignUpForm(props) {
   });
   const formOTP = useForm({
     defaultValues: {
-      otp: ''
-    }
+      otp: '',
+    },
   });
   const handleSubmitOtp = async (values) => {
     setSubmitOTP(true);
     setLoading(true);
     console.log(otpServer.token_otp);
-    context.otp(otpServer.token_otp, values).catch((error) => {
-      console.log(error);
-      if (_.has(error, 'response'))
-        if (error.response.data.message.includes('Wrong')) {
-          setMessageNotify('Wrong OTP');
-          setSubmitOTP(false);
-        }
-    }).then((res) => {
-      setLoading(false);
-      if (_.has(res, 'status'))
-        if (res.status == 201) {
-          setMessageNotify('Successful account registration');
-        }
-    })
-  }
+    context
+      .otp(otpServer.token_otp, values)
+      .catch((error) => {
+        console.log(error);
+        if (_.has(error, 'response'))
+          if (error.response.data.message.includes('Wrong')) {
+            setMessageNotify('Wrong OTP');
+            setSubmitOTP(false);
+          }
+      })
+      .then((res) => {
+        setLoading(false);
+        if (_.has(res, 'status'))
+          if (res.status === 201) {
+            setMessageNotify('Successful account registration');
+          }
+      });
+  };
   const handleSubmit = async (values) => {
     setLoading(true);
     setSubmitSignUp(true);
@@ -108,23 +110,26 @@ function SignUpForm(props) {
     if (onSubmit) {
       await onSubmit(values);
     }
-    context.signUp(values).catch((error) => {
-      if (_.has(error, 'response'))
-        if (error.response.data.message.includes('exists')) {
-          setMessageNotify('Email exist');
-          setSubmitSignUp(false);
-        }
-    }).then((res) => {
-      setLoading(false);
-      if (_.has(res, 'status'))
-        if (res.status == 201) {
-          setIsShowOtp(true);
-          console.log(res.data);
-          setOtpServer(res.data);
-        }
-    })
+    context
+      .signUp(values)
+      .catch((error) => {
+        if (_.has(error, 'response'))
+          if (error.response.data.message.includes('exists')) {
+            setMessageNotify('Email exist');
+            setSubmitSignUp(false);
+          }
+      })
+      .then((res) => {
+        setLoading(false);
+        if (_.has(res, 'status'))
+          if (res.status === 201) {
+            setIsShowOtp(true);
+            console.log(res.data);
+            setOtpServer(res.data);
+          }
+      });
   };
-  const [messageNotify, setMessageNotify] = useState("");
+  const [messageNotify, setMessageNotify] = useState('');
   const { isSubmitting } = form.formState;
   return (
     <div className={classes.root}>
@@ -136,11 +141,11 @@ function SignUpForm(props) {
       <Typography className={classes.title} component="h3" variant="h5">
         Create an Account
       </Typography>
-      {(loading == true) ? <BoxLoading /> : ''}
+      {loading === true ? <BoxLoading /> : ''}
       <h5>{messageNotify}</h5>
-      {(isShowOtp) ?
+      {isShowOtp ? (
         <form onSubmit={formOTP.handleSubmit(handleSubmitOtp)}>
-          <InputField name="otp" label="OTP" form={formOTP} defaultValue='' />
+          <InputField name="otp" label="OTP" form={formOTP} defaultValue="" />
           <Button
             disabled={submitOTP}
             type="submit"
@@ -151,15 +156,15 @@ function SignUpForm(props) {
             size="large"
           >
             Submit
-        </Button>
+          </Button>
         </form>
-        :
+      ) : (
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <InputField name="email" label="Email" form={form} />
           <PasswordField name="password" label="Password" form={form} />
           <InputField name="full_name" label="Full Name" form={form} />
           <InputField name="address" label="Address" form={form} />
-          <InputField name="phone" label="phone" form={form} />
+          <InputField name="phone" label="Phone" form={form} />
           <TextField
             name="birthday"
             label="Birthday"
@@ -180,9 +185,9 @@ function SignUpForm(props) {
             size="large"
           >
             Create an account
-        </Button>
+          </Button>
         </form>
-      }
+      )}
     </div>
   );
 }
