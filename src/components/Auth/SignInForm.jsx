@@ -96,7 +96,7 @@ function SignInForm(props) {
       });
   };
  let googleResponse = (response) => {
-    console.log('res cua google:', JSON.stringify(response.tokenId));
+    console.log('res cua google:', response);
     let entity = {
       login_type: 'google',
       email: '',
@@ -159,6 +159,7 @@ function SignInForm(props) {
       </div>
     </div>
   );
+  
 }
 
 export default SignInForm;
