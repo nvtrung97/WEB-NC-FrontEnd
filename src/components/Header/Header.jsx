@@ -25,7 +25,6 @@ export default function Header() {
   const { authenticated } = AuthContext;
   const catCtx = useCategory();
   const { categories } = catCtx;
-  console.log(categories);
 
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);

@@ -141,6 +141,11 @@ img {
   width: 100%;
 }
 
+html {
+  background-color: #f4f4f4 !important;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4 !important;
 }
