@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.scss';
 
 import GroupImg from 'static/group-40.svg';
@@ -10,6 +10,8 @@ import BannerCard from 'components/BannerCard';
 import CourseContainer from 'components/CourseContainer';
 import Carousel from "react-elastic-carousel";
 import Item from "./Item";
+import { useProduct } from '../../contexts/product.context';
+import CourseCard from 'components/CourseCard';
 const breakPoints = [
   { width: 1, itemsToShow: 1 },
   { width: 550, itemsToShow: 2, itemsToScroll: 2 },
@@ -217,15 +219,40 @@ const COURSE_DATA = [
 ];
 
 
-const CampK12 = () => {
+const Home = () => {
   const [items, setItems] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
-  
+  const [highLight, setHighLight] = useState([]);
+  const [mostOfView, setMostOfView] = useState([]);
+  const [lastest, setLastest] = useState([]);
+  let context = useProduct();
+  useEffect(() => {
+    let mounted = true;
+    context.getHighlightWeek()
+      .then(items => {
+        if (mounted) {
+          setHighLight(items.data)
+        }
+      })
+    context.mostOfViews()
+      .then(items => {
+        if (mounted) {
+          setMostOfView(items.data)
+        }
+      })
+    context.getLastest()
+      .then(items => {
+        if (mounted) {
+          setLastest(items.data)
+        }
+      })
+    return () => mounted = false;
+  }, [])
   return (
     <div className="online-courses container">
       <h1>
         ONLINE COURSES
       </h1>
-      
+
       <div className="banner-cards">
         <BannerCard
           image={GroupImg}
@@ -251,16 +278,82 @@ const CampK12 = () => {
           description="100% project-based curriculum. Solve real-world problems."
         />
       </div>
-      <div className="">
-        <hr className="seperator" />
-        <div className="carousel-wrapper">
+      <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
+        <hr className="seperator" /> 
+        <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Featured course of the past week</p>
+        <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
           <Carousel breakPoints={breakPoints}>
-            {items.map((item) => (
-              <Item key={item}>{item}{item}</Item>
+            {highLight.map((item) => (
+              <CourseCard
+              title= {item.name}
+              subTitle = {item.category}
+              happyStudents='1000'
+              hours='100h'
+              sessions= "6"
+              isWeekend= 'true'
+              isWeekday= 'true'
+              price='0'
+              discount='0'
+              learnMoreLink='#'
+              imageLink= {item.url_image}
+              categoryName= {item.category}
+              />
+            
             ))}
           </Carousel>
         </div>
       </div>
+      <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
+        <hr className="seperator" /> 
+        <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Courses with the most views</p>
+        <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
+          <Carousel breakPoints={breakPoints}>
+            {mostOfView.map((item) => (
+              <CourseCard
+              title= {item.name}
+              subTitle = {item.category}
+              happyStudents='1000'
+              hours='100h'
+              sessions= "6"
+              isWeekend= 'true'
+              isWeekday= 'true'
+              price='0'
+              discount='0'
+              learnMoreLink='#'
+              imageLink= {item.url_image}
+              categoryName= {item.category}
+              />
+            
+            ))}
+          </Carousel>
+        </div>
+      </div>
+      <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
+        <hr className="seperator" /> 
+        <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Latest courses</p>
+        <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
+          <Carousel breakPoints={breakPoints}>
+            {lastest.map((item) => (
+              <CourseCard
+              title= {item.name}
+              subTitle = {item.category}
+              happyStudents='1000'
+              hours='100h'
+              sessions= "6"
+              isWeekend= 'true'
+              isWeekday= 'true'
+              price='0'
+              discount='0'
+              learnMoreLink='#'
+              imageLink= {item.url_image}
+              categoryName= {item.category}
+              />
+            
+            ))}
+          </Carousel>
+        </div>
+      </div>
+
       <div className="book-button">
       </div>
       <CourseContainer
@@ -272,4 +365,4 @@ const CampK12 = () => {
   )
 };
 
-export default CampK12;
+export default Home;

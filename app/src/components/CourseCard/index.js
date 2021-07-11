@@ -5,15 +5,12 @@ import GrowthImage from 'static/growth.svg';
 import CommunityImage from 'static/community.svg';
 import RupeesImage from 'static/rupees.svg';
 import OfferImage from 'static/offer.svg';
-
+import './style.css';
 import './styles.scss';
 import { Link } from 'react-router-dom';
 
 const CourseCard = ({
   title,
-  subTitle,
-  level,
-  gradeRange,
   happyStudents,
   hours,
   sessions,
@@ -22,28 +19,20 @@ const CourseCard = ({
   price,
   discount,
   learnMoreLink,
+  imageLink,
+  categoryName
 }) => (
   <div className="course-card">
-    <div className="card-image" />
+    {imageLink?<div className="edit_mainge_ok" ><img alt="" className="edit_mainge" src='https://brandslogos.com/wp-content/uploads/images/large/java-logo-1.png' /></div>
+    : <div className="card-image" />}
+    
+ 
     <div className="card-body">
       <div className="title">
         <h6>
           {title}
         </h6>
-        <h6>
-          {subTitle}
-        </h6>
       </div>
-
-      <div className="sub-heading">
-        <span>
-          LEVEL <b>{level}</b>
-        </span>
-        <span>
-          GRADES <b>{gradeRange}</b>
-        </span>
-      </div>
-
       <div className="details">
         <div className="detail">
           <img alt="" src={GrowthImage} />
@@ -61,28 +50,25 @@ const CourseCard = ({
             {isWeekday && 'Weekday'}
             {' Batches'}
           </p>
+      
         </div>
+        <div className="detail">
+        <img alt="" src={TimerImage} />
+        <p>
+            {categoryName}
+          </p>
+      
+        </div>
+
       </div>
 
       <div className="price-offer">
         <div className="price">
-          <img alt="" src={RupeesImage} />
-          { (parseInt(discount) > 0)
-            ? <div>
-                <h5>{parseInt(price) - (parseInt(price) * parseInt(discount)/100)}</h5>
-                <h4>{price}</h4>
-              </div>
-            : <h5>{price}</h5>
-          }
+       
+        <div className="detail">
+
         </div>
-        {
-          discount && parseInt(discount) && (
-            <div className="offer">
-              <img alt="" src={OfferImage} />
-              {`${discount}% off`}
-            </div>
-          )
-        }
+        </div>
       </div>
 
       <div className="link">

@@ -5,15 +5,15 @@ export const ProductContext = createContext({});
 
 export const ProductProvider = ({ children }) => {
     async function getHighlightWeek() {
-        const response = await api.post('/products/highlight-of-week');
+        const response = await api.get('/products/highlight-of-week');
         return response;
     }
     async function mostOfViews() {
-        const response = await api.post('/products/most-of-view');
+        const response = await api.get('/products/most-of-view');
         return response;
     }
     async function getLastest() {
-        const response = await api.post('/products/lastest');
+        const response = await api.get('/products/lastest');
         return response;
     }
     return (
