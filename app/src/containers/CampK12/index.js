@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles.scss';
 
 import GroupImg from 'static/group-40.svg';
@@ -8,6 +8,14 @@ import TabletImg from 'static/tablet.svg';
 
 import BannerCard from 'components/BannerCard';
 import CourseContainer from 'components/CourseContainer';
+import Carousel from "react-elastic-carousel";
+import Item from "./Item";
+const breakPoints = [
+  { width: 1, itemsToShow: 1 },
+  { width: 550, itemsToShow: 2, itemsToScroll: 2 },
+  { width: 768, itemsToShow: 3 },
+  { width: 1200, itemsToShow: 4 }
+];
 
 const COURSE_DATA = [
   {
@@ -209,12 +217,15 @@ const COURSE_DATA = [
 ];
 
 
-const CampK12 = () => { 
+const CampK12 = () => {
+  const [items, setItems] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+  
   return (
     <div className="online-courses container">
       <h1>
         ONLINE COURSES
       </h1>
+      
       <div className="banner-cards">
         <BannerCard
           image={GroupImg}
@@ -240,15 +251,23 @@ const CampK12 = () => {
           description="100% project-based curriculum. Solve real-world problems."
         />
       </div>
+      <div className="">
+        <hr className="seperator" />
+        <div className="carousel-wrapper">
+          <Carousel breakPoints={breakPoints}>
+            {items.map((item) => (
+              <Item key={item}>{item}{item}</Item>
+            ))}
+          </Carousel>
+        </div>
+      </div>
       <div className="book-button">
-        <button>
-          Book a free trial
-        </button>
       </div>
       <CourseContainer
         gradeRanges={["1-4", "5-8", "9-12"]}
         coursesData={COURSE_DATA}
       />
+
     </div>
   )
 };
