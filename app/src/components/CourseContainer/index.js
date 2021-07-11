@@ -24,14 +24,6 @@ const CourseContainer = ({
           )
         }
       </div>
-      <div className="header">
-        <p>
-          Showing <b>{"All"}</b> courses for <b>{`Grade ${grade}`}</b>
-        </p>
-        <select>
-          <option>All Courses</option>
-        </select>
-      </div>
       <div className="course-cards">
         {
           coursesData.filter(course => course.gradeRange === grade).map(

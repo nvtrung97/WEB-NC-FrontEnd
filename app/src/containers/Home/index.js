@@ -11,13 +11,13 @@ import CourseContainer from 'components/CourseContainer';
 import Carousels from "react-elastic-carousel";
 import { useProduct } from '../../contexts/product.context';
 import CourseCard from 'components/CourseCard';
-import {Carousel} from '3d-react-carousal';
+import { Carousel } from '3d-react-carousal';
 let slides = [
-  <img  src="https://toidammeit.files.wordpress.com/2016/07/499292_1aeb_2.jpg" alt="1" />,
-  <img  src="https://braniumacademy.net/wp-content/uploads/2020/08/Banner_Java_2.png" alt="2" />  ,
-  <img  src="https://codeschool.vn/wp-content/uploads/2020/06/featured-nodejs-course.jpg" alt="3" />  ,
-  <img  src="http://newsky.edu.vn/wp-content/uploads/khoa-hoc-tieng-anh-cho-nguoi-mat-goc.jpg" alt="4" />  ,
-  <img src="https://media-kyna.cdn.vccloud.vn/uploads/courses/273/img/image_url.jpg" alt="5" />   ];
+  <img src="https://toidammeit.files.wordpress.com/2016/07/499292_1aeb_2.jpg" alt="1" />,
+  <img src="https://braniumacademy.net/wp-content/uploads/2020/08/Banner_Java_2.png" alt="2" />,
+  <img src="https://codeschool.vn/wp-content/uploads/2020/06/featured-nodejs-course.jpg" alt="3" />,
+  <img src="http://newsky.edu.vn/wp-content/uploads/khoa-hoc-tieng-anh-cho-nguoi-mat-goc.jpg" alt="4" />,
+  <img src="https://media-kyna.cdn.vccloud.vn/uploads/courses/273/img/image_url.jpg" alt="5" />];
 const breakPoints = [
   { width: 1, itemsToShow: 1 },
   { width: 550, itemsToShow: 2, itemsToScroll: 2 },
@@ -284,81 +284,87 @@ const Home = () => {
           description="100% project-based curriculum. Solve real-world problems."
         />
       </div>
-    
-      <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
-        <hr className="seperator" style ={{marginBottom:'50px'}}/> 
+
+      <div className="ok_setthoi" style={{ marginBottom: '50px' }}>
+        <hr className="seperator" style={{ marginBottom: '50px' }} />
         <Carousel slides={slides} autoplay={false} interval={1000} />
-        <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Featured course of the past week</p>
-        <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
-          <Carousels breakPoints={breakPoints}>
-            {highLight.map((item) => (
-              <CourseCard
-              title= {item.name}
-              subTitle = {item.category}
-              happyStudents='1000'
-              hours='100h'
-              sessions= "6"
-              isWeekend= 'true'
-              isWeekday= 'true'
-              price='0'
-              discount='0'
-              learnMoreLink='#'
-              imageLink= {item.url_image}
-              categoryName= {item.category}
-              />
-            
-            ))}
-          </Carousels>
+        <div style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)', padding: '20px' }}>
+          <p style={{ textAlign: "center", color: 'white', fontSize: '30px' }}>Featured course of the past week</p>
+          <div className="carousel-wrapper" style={{ marginTop: '60px' }}>
+            <Carousels breakPoints={breakPoints} style={{ marginTop: '50px' }}>
+              {highLight.map((item) => (
+                <CourseCard
+                  title={item.name}
+                  subTitle={item.category}
+                  happyStudents='1000'
+                  hours='100h'
+                  sessions="6"
+                  isWeekend='true'
+                  isWeekday='true'
+                  price='0'
+                  discount='0'
+                  learnMoreLink='#'
+                  imageLink={item.url_image}
+                  categoryName={item.category}
+                />
+
+              ))}
+            </Carousels>
+          </div>
         </div>
       </div>
-      <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
-        <hr className="seperator" /> 
-        <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Courses with the most views</p>
-        <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
-          <Carousels breakPoints={breakPoints}>
-            {mostOfView.map((item) => (
-              <CourseCard
-              title= {item.name}
-              subTitle = {item.category}
-              happyStudents='1000'
-              hours='100h'
-              sessions= "6"
-              isWeekend= 'true'
-              isWeekday= 'true'
-              price='0'
-              discount='0'
-              learnMoreLink='#'
-              imageLink= {item.url_image}
-              categoryName= {item.category}
-              />
-            
-            ))}
-          </Carousels>
+      <div className="ok_setthoi" style={{ marginBottom: '50px' }}>
+        <hr className="seperator" />
+        <div style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)', padding: '20px' }}>
+          <p style={{ textAlign: "center", color: 'white', fontSize: '30px' }}>Courses with the most views</p>
+          <div className="carousel-wrapper" style={{ marginTop: '50px' }}>
+            <Carousels breakPoints={breakPoints}>
+              {mostOfView.map((item) => (
+                <CourseCard
+                  title={item.name}
+                  subTitle={item.category}
+                  happyStudents='1000'
+                  hours='100h'
+                  sessions="6"
+                  isWeekend='true'
+                  isWeekday='true'
+                  price='0'
+                  discount='0'
+                  learnMoreLink='#'
+                  imageLink={item.url_image}
+                  categoryName={item.category}
+                />
+
+              ))}
+            </Carousels>
+          </div>
         </div>
       </div>
-      <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
-        <hr className="seperator" /> 
-        <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Latest courses</p>
-        <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
-          <Carousels breakPoints={breakPoints}>
-            {lastest.map((item) => (
-              <CourseCard
-              title= {item.name}
-              subTitle = {item.category}
-              happyStudents='1000'
-              hours='100h'
-              sessions= "6"
-              isWeekend= 'true'
-              isWeekday= 'true'
-              price='0'
-              discount='0'
-              learnMoreLink='#'
-              imageLink= {item.url_image}
-              categoryName= {item.category}
-              />
-            
-            ))}
-          </Carousels>
+      <div className="ok_setthoi" style={{ marginBottom: '50px' }}>
+        <hr className="seperator" />
+        <div style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)', padding: '20px' }}>
+          <p style={{ textAlign: "center", color: 'white', fontSize: '30px' }}>Latest courses</p>
+          <div className="carousel-wrapper" style={{ marginTop: '50px' }}>
+            <Carousels breakPoints={breakPoints}>
+              {lastest.map((item) => (
+                <CourseCard
+                  title={item.name}
+                  subTitle={item.category}
+                  happyStudents='1000'
+                  hours='100h'
+                  sessions="6"
+                  isWeekend='true'
+                  isWeekday='true'
+                  price='0'
+                  discount='0'
+                  learnMoreLink='#'
+                  imageLink={item.url_image}
+                  categoryName={item.category}
+                />
+
+              ))}
+            </Carousels>
+          </div>
         </div>
       </div>
 
