@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem(global.config.LOCALSTORAGE_NAME);
   }
   async function signIn(entity) {
-    const response = await api.post('/user/login', entity);
+    const response = await api.post('/auth/signin', entity);
     setUser(response.data);
     api.defaults.headers.Authorization = response.data.accessToken;
     localStorage.setItem(

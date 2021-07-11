@@ -35,7 +35,7 @@ const Lectures = () => {
             if (lec.length == 0) {
                 try {
                     let res = await context.getLectures();
-                    for(let item of res){
+                    for (let item of res) {
                         let count = await context.totalCoursesOfLec(item._id);
                         item.count = count;
                     }
@@ -46,16 +46,25 @@ const Lectures = () => {
             };
         }
         fetchProduct();
+        return;
     }, []);
     let handleDelete = ((e) => {
         let id = e.target.getAttribute('data-item');
         //TODO
-        alert(`Đã xóa: ${id}`);
+        context.deleteAccLecturers(id).then((res) => {
+            let temp = lec;
+            temp = temp.filter(e => e._id != id);
+            setLec(temp);
+            return;
+        }).catch((err) => {
+            alert("Something wrong!");
+            return;
+        })
     })
     const updateInputValue = async (event) => {
         event.preventDefault();
         if (event.target.name == 'email') { setEmail(event.target.value) }
-        
+
         if (event.target.name == 'valueUpdate') { setValueUpdate(event.target.value) }
         if (event.target.name == 'password') { setPass(event.target.value) }
     }
@@ -69,18 +78,35 @@ const Lectures = () => {
     const createAccLecturers = () => {
         let entity = {
             email: email,
-            password: pass
+            password: pass,
+            role: 1
         }
-        console.log(entity);
+        context.createAccLecturers(entity).then((res) => {
+            let temp = lec;
+            if (temp.filter(e => e._id == res._id).length > 0) {
+                console.log('ok co nha');
+                return;
+            } else {
+                temp.push(res);
+                setLec(temp);
+                return;
+            }
+        }).catch((err) => {
+            alert("Something wrong!");
+            return;
+        })
+     //   console.log(entity);
     }
     const handleUpdatePass = () => {
-        let entity = {
-            _id: idUpdate,
-            password: valueUpdate
-        }
-        console.log(entity);
+        context.updatePassAccLecturers(idUpdate, {password: valueUpdate}).then((res)=>{
+            alert('Update successfully');
+            return;
+        }).catch(()=>{
+            alert("Something wrong!");
+        })
+        
     }
-    const handleOpenUpdatePass = (e)=>{
+    const handleOpenUpdatePass = (e) => {
         setIdUpdate(e.target.getAttribute('data-item'));
         setisShowUpdatePass(true);
         let newdata = lec.filter(function (element) { return element._id == e.target.getAttribute('data-item') });
@@ -137,15 +163,15 @@ const Lectures = () => {
 
 
             {
-                isShowUpdatePass?
-                <div  style={{ marginTop: '50px',marginLeft: '30px' }}>
-                <TextField id="standard-basic" name='id_cate' label={idUpdate} style={{ width: '50px' }} disabled/> <br/>
-                <TextField id="standard-basic" name='valueUpdate' type = 'password' onChange={evt => updateInputValue(evt)} label='Password' style={{ minWidth: '300px' }}/>
-                <Button variant="contained" color="primary" href="#contained-buttons" style={{ marginTop: '13px', marginLeft: '10px', backgroundColor: '#62b4ff', minWidth: '90px' }} onClick={handleUpdatePass}>
-                    Update
-                </Button>
-                <Button variant="contained" style={{ marginTop: '13px', marginLeft: '10px' }} onClick={handleCloseAccout}>Cancel</Button>
-            </div>:''
+                isShowUpdatePass ?
+                    <div style={{ marginTop: '50px', marginLeft: '30px' }}>
+                        <TextField id="standard-basic" name='id_cate' label={idUpdate} style={{ width: '50px' }} disabled /> <br />
+                        <TextField id="standard-basic" name='valueUpdate' type='password' onChange={evt => updateInputValue(evt)} label='Password' style={{ minWidth: '300px' }} />
+                        <Button variant="contained" color="primary" href="#contained-buttons" style={{ marginTop: '13px', marginLeft: '10px', backgroundColor: '#62b4ff', minWidth: '90px' }} onClick={handleUpdatePass}>
+                            Update
+                        </Button>
+                        <Button variant="contained" style={{ marginTop: '13px', marginLeft: '10px' }} onClick={handleCloseAccout}>Cancel</Button>
+                    </div> : ''
             }
         </div>
     )

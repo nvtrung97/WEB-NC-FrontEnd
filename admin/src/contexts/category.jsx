@@ -14,11 +14,19 @@ export const CategoryProvider = ({ children }) => {
     fetchCategory();
   }, []);
   async function createCategory(entity) {
-    const response = await api.post('/categories', entity);
+    const response = await api.post('admin/categories', entity);
+    return response;
+  }
+  async function updateCategory(id, entity) {
+    const response = await api.put(`admin/categories/${id}`, entity);
+    return response;
+  }
+  async function deleteCategory(id) {
+    const response = await api.delete(`admin/categories/${id}`);
     return response;
   }
   return (
-    <CategoryContext.Provider value={{ categories: categoryList, createCategory }}>
+    <CategoryContext.Provider value={{ categories: categoryList, createCategory, updateCategory, deleteCategory }}>
       {children}
     </CategoryContext.Provider>
   );

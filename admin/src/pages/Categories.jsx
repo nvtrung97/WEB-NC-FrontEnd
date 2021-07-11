@@ -51,16 +51,26 @@ const Categories = () => {
     const handleDelete = ((e) => {
         let id_cate = e.target.getAttribute('data-item');
         // TODO process delete with api
-        let newdata = CateGo.filter(function (element) { return element._id != id_cate });
-        setCateGo(newdata);
+        context.deleteCategory(id_cate).then((res) => {
+            let newdata = CateGo.filter(function (element) { return element._id != id_cate });
+            setCateGo(newdata);
+        }).catch((err) => {
+            alert("This category cannot be deleted because there is a course");
+        })
+
     })
     const handleUpdate = (() => {
         let entity = {
-            _id: idUpdate,
             name: valueUpdate
         }
+        context.updateCategory(idUpdate, entity).then((res) => {
+            window.location.reload(false);
+            return;
+        }).catch((err) => {
+            alert("This category cannot be updated because there is a course");
+        })
         console.log(entity);
-       // TODO
+        // TODO
     })
     const handleOpenAdd = (() => {
         setShowaddCate(true);
@@ -72,7 +82,7 @@ const Categories = () => {
     const handleAddNewCate = (() => {
         // TODO: handle cate
         if (!newcate) { alert('empty'); return; }
-        context.createCategory({ categoryName: newcate }).then((res) => {
+        context.createCategory({ name: newcate }).then((res) => {
             window.location.reload(false);
             return;
         }).catch((err) => {
@@ -123,15 +133,15 @@ const Categories = () => {
                 </Table>
             </TableContainer>
             {
-                isShowUpdate?
-                <div  style={{ marginTop: '50px',marginLeft: '30px' }}>
-                <TextField id="standard-basic" name='id_cate' label=" " style={{ width: '50px' }} value={idUpdate} />
-                <TextField id="standard-basic" name='valueUpdate' onChange={evt => updateInputValue(evt)} label={valueUpdate} style={{ minWidth: '300px' }}/>
-                <Button variant="contained" color="primary" href="#contained-buttons" style={{ marginTop: '13px', marginLeft: '10px', backgroundColor: '#62b4ff', minWidth: '90px' }} onClick={handleUpdate}>
-                    Update
-                </Button>
-                <Button variant="contained" style={{ marginTop: '13px', marginLeft: '10px' }} onClick={handleCloseAdd}>Cancel</Button>
-            </div>:''
+                isShowUpdate ?
+                    <div style={{ marginTop: '50px', marginLeft: '30px' }}>
+                        <TextField id="standard-basic" name='id_cate' label=" " style={{ width: '50px' }} value={idUpdate} />
+                        <TextField id="standard-basic" name='valueUpdate' onChange={evt => updateInputValue(evt)} label={valueUpdate} style={{ minWidth: '300px' }} />
+                        <Button variant="contained" color="primary" href="#contained-buttons" style={{ marginTop: '13px', marginLeft: '10px', backgroundColor: '#62b4ff', minWidth: '90px' }} onClick={handleUpdate}>
+                            Update
+                        </Button>
+                        <Button variant="contained" style={{ marginTop: '13px', marginLeft: '10px' }} onClick={handleCloseAdd}>Cancel</Button>
+                    </div> : ''
             }
 
         </div>

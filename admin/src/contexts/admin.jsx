@@ -35,19 +35,35 @@ export const AdminProvider = ({ children }) => {
         }
         return data;
     }
+    async function createAccLecturers(data) {
+        const response = await api.post('/admin/users', data);
+        return response;
+    }
+    async function deleteAccLecturers(id) {
+        const response = await api.delete(`/admin/users/${id}`);
+        return response;
+    }
+    async function deleteAccStudent(id) {
+        const response = await api.delete(`/admin/users/${id}`);
+        return response;
+    }
+    async function updatePassAccLecturers(id, data) {
+        const response = await api.delete(`/admin/users/${id}`, data);
+        return response;
+    }
     async function totalCoursesOfLec(user_id) {
         const response = await api.get('/admin/products');
         let count = 0;
         for (let item of response) {
             if (item.user_id == user_id) {
-                console.log(item);
+
                 count++;
             }
         }
         return count;
     }
     return (
-        <AdminContext.Provider value={{ getCourses, getUserById, deleteById, getLectures, getStudent, totalCoursesOfLec }}>
+        <AdminContext.Provider value={{ getCourses, getUserById, deleteById, getLectures, getStudent, totalCoursesOfLec, createAccLecturers, deleteAccLecturers,updatePassAccLecturers,deleteAccStudent }}>
             {children}
         </AdminContext.Provider>
     );
