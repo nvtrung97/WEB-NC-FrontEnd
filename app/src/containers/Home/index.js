@@ -8,10 +8,16 @@ import TabletImg from 'static/tablet.svg';
 
 import BannerCard from 'components/BannerCard';
 import CourseContainer from 'components/CourseContainer';
-import Carousel from "react-elastic-carousel";
-import Item from "./Item";
+import Carousels from "react-elastic-carousel";
 import { useProduct } from '../../contexts/product.context';
 import CourseCard from 'components/CourseCard';
+import {Carousel} from '3d-react-carousal';
+let slides = [
+  <img  src="https://toidammeit.files.wordpress.com/2016/07/499292_1aeb_2.jpg" alt="1" />,
+  <img  src="https://braniumacademy.net/wp-content/uploads/2020/08/Banner_Java_2.png" alt="2" />  ,
+  <img  src="https://codeschool.vn/wp-content/uploads/2020/06/featured-nodejs-course.jpg" alt="3" />  ,
+  <img  src="http://newsky.edu.vn/wp-content/uploads/khoa-hoc-tieng-anh-cho-nguoi-mat-goc.jpg" alt="4" />  ,
+  <img src="https://media-kyna.cdn.vccloud.vn/uploads/courses/273/img/image_url.jpg" alt="5" />   ];
 const breakPoints = [
   { width: 1, itemsToShow: 1 },
   { width: 550, itemsToShow: 2, itemsToScroll: 2 },
@@ -278,11 +284,13 @@ const Home = () => {
           description="100% project-based curriculum. Solve real-world problems."
         />
       </div>
+    
       <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
-        <hr className="seperator" /> 
+        <hr className="seperator" style ={{marginBottom:'50px'}}/> 
+        <Carousel slides={slides} autoplay={false} interval={1000} />
         <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Featured course of the past week</p>
         <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
-          <Carousel breakPoints={breakPoints}>
+          <Carousels breakPoints={breakPoints}>
             {highLight.map((item) => (
               <CourseCard
               title= {item.name}
@@ -300,14 +308,14 @@ const Home = () => {
               />
             
             ))}
-          </Carousel>
+          </Carousels>
         </div>
       </div>
       <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
         <hr className="seperator" /> 
         <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Courses with the most views</p>
         <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
-          <Carousel breakPoints={breakPoints}>
+          <Carousels breakPoints={breakPoints}>
             {mostOfView.map((item) => (
               <CourseCard
               title= {item.name}
@@ -325,14 +333,14 @@ const Home = () => {
               />
             
             ))}
-          </Carousel>
+          </Carousels>
         </div>
       </div>
       <div className="ok_setthoi" style = {{marginBottom: '50px'}}>
         <hr className="seperator" /> 
         <p style = {{textAlign: "center", color: 'white', fontSize: '30px'}}>Latest courses</p>
         <div className="carousel-wrapper" style = {{marginTop: '50px'}}>
-          <Carousel breakPoints={breakPoints}>
+          <Carousels breakPoints={breakPoints}>
             {lastest.map((item) => (
               <CourseCard
               title= {item.name}
@@ -350,7 +358,7 @@ const Home = () => {
               />
             
             ))}
-          </Carousel>
+          </Carousels>
         </div>
       </div>
 
