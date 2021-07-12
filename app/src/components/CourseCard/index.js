@@ -1,14 +1,19 @@
 import React from 'react';
-
+import authorImage from 'static/writer.svg';
 import TimerImage from 'static/timer.svg';
 import GrowthImage from 'static/growth.svg';
 import CommunityImage from 'static/community.svg';
+import viewsImage from 'static/vision.svg';
+import reviewImage from 'static/review.svg';
 import RupeesImage from 'static/rupees.svg';
 import OfferImage from 'static/offer.svg';
+import menuImage from 'static/menu.svg';
 import './style.css';
 import './styles.scss';
 import { Link } from 'react-router-dom';
-
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import Rating from '@material-ui/lab/Rating';
+import { InputNumber, Rate } from "antd";
 const CourseCard = ({
   title,
   happyStudents,
@@ -16,17 +21,18 @@ const CourseCard = ({
   sessions,
   isWeekend,
   isWeekday,
-  price,
-  discount,
+  lecturer,
   learnMoreLink,
   imageLink,
-  categoryName
+  categoryName,
+  reviews,
+  score
 }) => (
   <div className="course-card">
-    {imageLink?<div className="edit_mainge_ok" ><img alt="" className="edit_mainge" src='https://brandslogos.com/wp-content/uploads/images/large/java-logo-1.png' /></div>
-    : <div className="card-image" />}
-    
- 
+    {imageLink ? <div className="edit_mainge_ok" ><img alt="" className="edit_mainge" src='https://brandslogos.com/wp-content/uploads/images/large/java-logo-1.png' /></div>
+      : <div className="card-image" />}
+
+
     <div className="card-body">
       <div className="title">
         <h6>
@@ -36,38 +42,35 @@ const CourseCard = ({
       <div className="details">
         <div className="detail">
           <img alt="" src={GrowthImage} />
-          <p><b>{parseFloat(happyStudents / 1000)}k</b> Happy Students</p>
+          <p><b>{parseFloat(happyStudents / 1000)}k</b> Happy Students to Learn Courses</p>
         </div>
         <div className="detail">
-          <img alt="" src={TimerImage} />
-          <p><b>{hours} Hours</b> over <span>{sessions}</span> Sessions</p>
-        </div>
-        <div className="detail">
-          {(isWeekday || isWeekend) && <img alt="" src={CommunityImage} />}
+          <img alt="" src={menuImage} />
           <p>
-            {isWeekend && 'Weekend'}
-            {(isWeekend && isWeekday) && ' and '}
-            {isWeekday && 'Weekday'}
-            {' Batches'}
-          </p>
-      
-        </div>
-        <div className="detail">
-        <img alt="" src={TimerImage} />
-        <p>
             {categoryName}
           </p>
-      
         </div>
-
+        <div className="detail">
+          <img alt="" src={authorImage} />
+          <p>
+            {lecturer}
+          </p>
+        </div>
+        <div className="detail">
+          <img alt="" src={reviewImage} />
+          <p>
+            {reviews || 0}
+          </p>
+        </div>
+        <Rating name="disabled" value={score/2} disabled />
       </div>
 
       <div className="price-offer">
         <div className="price">
-       
-        <div className="detail">
 
-        </div>
+          <div className="detail">
+
+          </div>
         </div>
       </div>
 

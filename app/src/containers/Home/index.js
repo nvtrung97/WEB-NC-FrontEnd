@@ -10,6 +10,7 @@ import BannerCard from 'components/BannerCard';
 import CourseContainer from 'components/CourseContainer';
 import Carousels from "react-elastic-carousel";
 import { useProduct } from '../../contexts/product.context';
+import { useCategory } from '../../contexts/categories.context';
 import CourseCard from 'components/CourseCard';
 import { Carousel } from '3d-react-carousal';
 let slides = [
@@ -226,9 +227,14 @@ const COURSE_DATA = [
 
 
 const Home = () => {
-  const [items, setItems] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+  const [cateRegis, setCateRegis] = useState([{
+    "_id": 1,
+    "name": "Khóa học lập trình",
+    "count": 2
+  }]);
   const [highLight, setHighLight] = useState([]);
   const [mostOfView, setMostOfView] = useState([]);
+  let contextCate = useCategory();
   const [lastest, setLastest] = useState([]);
   let context = useProduct();
   useEffect(() => {
@@ -249,6 +255,12 @@ const Home = () => {
       .then(items => {
         if (mounted) {
           setLastest(items.data)
+        }
+      })
+    contextCate.mostRegisted()
+      .then((items) => {
+        if (mounted) {
+          setCateRegis(items.data)
         }
       })
     return () => mounted = false;
@@ -306,6 +318,9 @@ const Home = () => {
                   learnMoreLink='#'
                   imageLink={item.url_image}
                   categoryName={item.category}
+                  lecturer={item.author_name}
+                  reviews={item.number_reviews}
+                  score={item.score}
                 />
 
               ))}
@@ -333,6 +348,9 @@ const Home = () => {
                   learnMoreLink='#'
                   imageLink={item.url_image}
                   categoryName={item.category}
+                  lecturer={item.author_name}
+                  reviews={item.number_reviews}
+                  score={item.score}
                 />
 
               ))}
@@ -360,6 +378,9 @@ const Home = () => {
                   learnMoreLink='#'
                   imageLink={item.url_image}
                   categoryName={item.category}
+                  lecturer={item.author_name}
+                  reviews={item.number_reviews}
+                  score={item.score}
                 />
 
               ))}
@@ -372,6 +393,7 @@ const Home = () => {
       </div>
       <CourseContainer
         gradeRanges={["1-4", "5-8", "9-12"]}
+        categoriesRe={cateRegis}
         coursesData={COURSE_DATA}
       />
 

@@ -1,47 +1,67 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import CourseCard from 'components/CourseCard';
 import './styles.scss'
-
+import { useProduct } from '../../contexts/product.context';
 const CourseContainer = ({
   gradeRanges,
   coursesData,
+  categoriesRe
 }) => {
-  const [grade, setGrade] = useState(gradeRanges[1]);
-
+  const [cate, setCate] = useState(categoriesRe[0]);
+  const [products, setProducts] = useState([]);
+  let context = useProduct();
+  useEffect(() => {
+    let entity = {
+      category_id: cate._id
+    }
+    let mounted = true;
+    if (mounted)
+      updateProducts(entity);
+    return () => mounted = false;
+  }, [])
+  let updateProducts = (query) => {
+    context.getProductByQuery(query)
+      .then(items => {
+        setProducts(items.data);
+        return;
+      })
+  }
   return (
     <div className="course-container">
       <div className="buttons">
-        { gradeRanges.map(
-            (type) => (
-              <button
-                className={type === grade && 'active'}
-                onClick={() => setGrade(type)}
-              >
-                { `Grade ${type}` }
-              </button>
-            )
+        {categoriesRe.map(
+          (type) => (
+            <button
+              className={type === cate && 'active'}
+              onClick={() => setCate(type)}
+            >
+              {`${type.name}`}
+            </button>
           )
+        )
         }
       </div>
       <div className="course-cards">
         {
-          coursesData.filter(course => course.gradeRange === grade).map(
+          products.map(
             (course) => (
               <CourseCard
-                title={course.title}
-                subTitle={course.subTitle}
-                level={course.level}
-                gradeRange={course.gradeRange}
-                happyStudents={course.happyStudents}
-                hours={course.hours}
-                sessions={course.sessions}
-                isWeekday={course.isWeekday}
-                isWeekend={course.isWeekend}
-                batchInformation={course.batchInformation}
-                price={course.price}
-                discount={course.discount}
-                learnMoreLink={course.learnMoreLink}
+                title={course.name}
+                subTitle={course.category}
+                happyStudents='1000'
+                hours='100h'
+                sessions="6"
+                isWeekend='true'
+                isWeekday='true'
+                price='0'
+                discount='0'
+                learnMoreLink='#'
+                imageLink={course.url_image}
+                categoryName={course.category}
+                lecturer={course.author_name}
+                reviews={course.number_reviews}
+                score={course.score}
               />
             )
           )

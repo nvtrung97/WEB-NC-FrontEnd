@@ -14,8 +14,12 @@ export const CategoryProvider = ({ children }) => {
     fetchCategory();
   }, []);
 
+  async function mostRegisted() {
+    const response = await api.get('/categories/most-registed');
+    return response;
+  }
   return (
-    <CategoryContext.Provider value={{ categories: categoryList }}>
+    <CategoryContext.Provider value={{ categories: categoryList, mostRegisted }}>
       {children}
     </CategoryContext.Provider>
   );

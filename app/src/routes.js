@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import CampK12 from 'containers/CampK12';
+import CampK12 from 'containers/Home';
 import Navbar from 'containers/Navbar';
 import Signin from './pages/auth/sign-in.component'
 import Signup from './pages/auth/sign-up.component'
