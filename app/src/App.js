@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.scss';
+import './app.css';
 import Signin from './pages/auth/sign-in.component'
 import Signup from './pages/auth/sign-up.component'
 import {
@@ -13,7 +14,7 @@ import { CategoryProvider } from './contexts/categories.context';
 import { ProductProvider } from './contexts/product.context';
 import Home from 'containers/Home';
 import Navbar from 'containers/Navbar';
-
+import  Footer from './components/Footer/index';
 function App() {
   return (
     <div>
@@ -28,6 +29,10 @@ function App() {
                 <Route exact path="/signin" component={Signin} />
                 <Route exact path="/signup" component={Signup} />
               </Switch>
+            
+              <Footer  className = 'footer_a'/>
+    
+             
             </BrowserRouter>
           </ProductProvider>
         </CategoryProvider>

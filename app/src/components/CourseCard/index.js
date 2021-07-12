@@ -14,6 +14,8 @@ import { Link } from 'react-router-dom';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import Rating from '@material-ui/lab/Rating';
 import { InputNumber, Rate } from "antd";
+import { Height } from '@material-ui/icons';
+import { white } from 'material-ui/styles/colors';
 const CourseCard = ({
   title,
   happyStudents,
@@ -29,9 +31,10 @@ const CourseCard = ({
   score
 }) => (
   <div className="course-card">
-    {imageLink ? <div className="edit_mainge_ok" ><img alt="" className="edit_mainge" src='https://brandslogos.com/wp-content/uploads/images/large/java-logo-1.png' /></div>
-      : <div className="card-image" />}
-
+    <div style={{height: '150px',width: '250px',margin: 'auto', padding:'10px', backgroundColor: white, borderRadius: '5px', marginTop: '13px', opacity: '0.7'}}>
+      {imageLink ? <div className="edit_mainge_ok" ><img alt="" className="edit_mainge" src={imageLink} style={{ maxHeight: '150px', maxWidth: '250px' }} /></div>
+        : <div className="card-image" />}
+    </div>
 
     <div className="card-body">
       <div className="title">
@@ -62,7 +65,7 @@ const CourseCard = ({
             {reviews || 0}
           </p>
         </div>
-        <Rating name="disabled" value={score/2} disabled />
+        <Rating name="disabled" value={score / 2} disabled />
       </div>
 
       <div className="price-offer">
