@@ -21,11 +21,16 @@ const CourseContainer = ({
     return () => mounted = false;
   }, [])
   let updateProducts = (query) => {
+    console.log(query);
     context.getProductByQuery(query)
       .then(items => {
+        console.log(items);
         setProducts(items.data);
         return;
       })
+  }
+  const handleOnclick = (type) => {
+
   }
   return (
     <div className="course-container">
@@ -33,8 +38,11 @@ const CourseContainer = ({
         {categoriesRe.map(
           (type) => (
             <button
-              className={type === cate && 'active'}
-              onClick={() => setCate(type)}
+              className={type._id === cate._id && 'active'}
+              onClick={() => {
+                setCate(type);
+                updateProducts({ category_id: type._id });
+              }}
             >
               {`${type.name}`}
             </button>

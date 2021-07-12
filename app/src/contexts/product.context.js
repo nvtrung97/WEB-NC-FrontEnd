@@ -17,7 +17,7 @@ export const ProductProvider = ({ children }) => {
         return response;
     }
     async function getProductByQuery(Query) {
-        const response = await api.get('/products/lastest', Query);
+        const response = await api.get('/products', {params: Query});
         return response;
     }
     return (
