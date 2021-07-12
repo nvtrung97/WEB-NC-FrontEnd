@@ -1,0 +1,23 @@
+.each-slide > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    height: 350px;
+  }
+  
+  .each-slide span {
+    padding: 20px;
+    font-size: 20px;
+    background: #efefef;
+    text-align: center;
+  }
+  .top-top {
+    margin-bottom: 100px;
+  }
+  .ok_setthoi{
+    margin-bottom: 50px;
+  }
+  .react-3d-carousel{
+    margin-top: 50px;
+  }

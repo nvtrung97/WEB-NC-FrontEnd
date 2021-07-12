@@ -11,6 +11,8 @@ import './styles.css';
 import { NavLink } from 'react-router-dom';
 import _ from 'lodash';
 import Avatar from '@material-ui/core/Avatar';
+import SearchBar from './search';
+import Catego from './category';
 const Navbar = () => {
   const AuthContext = useAuth();
   let authenticated, user;
@@ -45,27 +47,10 @@ const Navbar = () => {
         <img src={CampK12Logo} alt="Camp K12 Logo" />
       </a>
       <div className={isShowMobileNav ? 'nav-items-mobile' : 'nav-items'}>
-        <ul>
-          <li>
-            <NavLink to="online-courses" activeClassName="selected">
-              Online Courses
-            </NavLink>
-            <div />
-          </li>
-          <li>
-            <NavLink to="offline-camp" activeClassName="selected">
-              Offline Camps
-            </NavLink>
-            <div />
-          </li>
-          <li>
-            <NavLink to="refer-n-earn" activeClassName="selected">
-              Refer & Earn
-            </NavLink>
-            <div />
-          </li>
-        </ul>
+        <SearchBar style={{padding: '10px',marginLeft: '60px'}}/>
+       
         <div>
+        <Catego />
           <button className="leaderboard">
             <img alt="" role="button" src={Leaderboard} />
           </button>
@@ -74,10 +59,9 @@ const Navbar = () => {
           </button>
           {authenticated === true ?
             <div>
-              <Button onClick={handleClick} className = 'editProfile'>
-                 {'Hello:' +userName}
+              <Button onClick={handleClick} className='editProfile'>
+                {'Hello:' + userName}
               </Button>
-
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}

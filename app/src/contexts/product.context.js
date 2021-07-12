@@ -17,11 +17,16 @@ export const ProductProvider = ({ children }) => {
         return response;
     }
     async function getProductByQuery(Query) {
-        const response = await api.get('/products', {params: Query});
+        const response = await api.get('/products', { params: Query });
+        return response;
+    }
+    async function getSearch(key) {
+        let Query = { keyword: key }
+        const response = await api.get('/products/search', { params: Query });
         return response;
     }
     return (
-        <ProductContext.Provider value={{ getHighlightWeek, mostOfViews, getLastest,getProductByQuery }}>
+        <ProductContext.Provider value={{ getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch }}>
             {children}
         </ProductContext.Provider>
     );

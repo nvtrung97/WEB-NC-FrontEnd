@@ -14,6 +14,7 @@ import { CategoryProvider } from './contexts/categories.context';
 import { ProductProvider } from './contexts/product.context';
 import Home from 'containers/Home';
 import Navbar from 'containers/Navbar';
+import Search from 'containers/Search';
 import  Footer from './components/Footer/index';
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/signin" component={Signin} />
                 <Route exact path="/signup" component={Signup} />
+                <Route exact path="/search" component={Search} />
               </Switch>
             
               <Footer  className = 'footer_a'/>
