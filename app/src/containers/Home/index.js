@@ -388,15 +388,21 @@ const Home = () => {
           </div>
         </div>
       </div>
-
+      <div className="ok_setthoi" style={{ marginBottom: '50px' }}>
+        <hr className="seperator" />
+        <div style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)', padding: '20px' }}>
+          <p style={{ textAlign: "center", color: 'white', fontSize: '30px' }}>Categories are most subscribed to in the past week</p>
+          <div className="carousel-wrapper" style={{ marginTop: '50px' }}>
+            <CourseContainer
+              gradeRanges={["1-4", "5-8", "9-12"]}
+              categoriesRe={cateRegis}
+              coursesData={COURSE_DATA}
+            />
+          </div>
+        </div>
+      </div>
       <div className="book-button">
       </div>
-      <CourseContainer
-        gradeRanges={["1-4", "5-8", "9-12"]}
-        categoriesRe={cateRegis}
-        coursesData={COURSE_DATA}
-      />
-
     </div>
   )
 };
