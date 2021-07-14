@@ -16,6 +16,7 @@ import Home from 'containers/Home';
 import Navbar from 'containers/Navbar';
 import Search from 'containers/Search';
 import  Footer from './components/Footer/index';
+import  DetailPage from './containers/DetailProduct/index';
 function App() {
   return (
     <div>
@@ -30,6 +31,7 @@ function App() {
                 <Route exact path="/signin" component={Signin} />
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/search" component={Search} />
+                <Route exact path="/detail" component={DetailPage} />
               </Switch>
             
               <Footer  className = 'footer_a'/>
