@@ -18,8 +18,12 @@ export const CategoryProvider = ({ children }) => {
     const response = await api.get('/categories/most-registed');
     return response;
   }
+  async function getCategoryList() {
+    const response = await api.get('/categories');
+    return response;
+  }
   return (
-    <CategoryContext.Provider value={{ categories: categoryList, mostRegisted }}>
+    <CategoryContext.Provider value={{ categories: categoryList, mostRegisted, getCategoryList }}>
       {children}
     </CategoryContext.Provider>
   );

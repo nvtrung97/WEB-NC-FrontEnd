@@ -4,42 +4,45 @@ import CourseCard from 'components/CourseCard';
 import './styles.scss'
 import { useProduct } from '../../contexts/product.context';
 import Pagination from '@material-ui/lab/Pagination';
+import _ from 'lodash';
 
 
 const CourseContainer = ({
     query,
-
+    checked
 }) => {
-    const [queryProp, setQueryProp] = useState(query);
+    const [queryProp, setQueryProp] = useState({ ...query });
     const [totalPage, setTotalPage] = useState(0);
+    const [checkedt, setCheckedt] = useState(0);
     const [page, setPage] = useState(1);
     const [products, setProducts] = useState([]);
     let context = useProduct();
     useEffect(() => {
-
+        let temp = queryProp
+        if (checked != 0) {
+            temp = { ...queryProp, category_id: checked };
+        }
         let mounted = true;
         if (mounted)
-            updateProducts(queryProp);
+            updateProducts(temp);
         return () => mounted = false;
-    }, [])
-    let updateProducts = (query) => {
-        console.log(query);
+    }, []);
+
+    var updateProducts = (query) => {
+        if (query.category_id) setCheckedt(query.category_id);
         context.getSearch(query)
             .then(items => {
-                console.log(items);
                 setProducts(items.data.records);
                 setTotalPage(items.data.totalPage);
                 setPage(items.data.page);
                 return;
             })
     }
-    const handleOnclick = (type) => {
-
+    if (checked != 0 && checkedt != checked) {
+        updateProducts({ ...queryProp, category_id: checked });
     }
     const handleChangePage = (event, value) => {
         updateProducts({ ...queryProp, page: value });
-
-        console.log(value);
     }
     return (
         <div className="course-container">

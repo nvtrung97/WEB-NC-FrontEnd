@@ -25,6 +25,9 @@ export default function Search() {
             setData(res.data.records);
         });
     }
+
+
+    
     const handleOnclickSearch = () => {
         history.push(`/search?keyword=${valueRef.current.value}`);
         window.location.reload(false);
