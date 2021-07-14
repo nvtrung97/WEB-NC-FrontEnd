@@ -4,8 +4,6 @@ import CourseCard from 'components/CourseCard';
 import './styles.scss'
 import { useProduct } from '../../contexts/product.context';
 const CourseContainer = ({
-  gradeRanges,
-  coursesData,
   categoriesRe
 }) => {
   const [cate, setCate] = useState(categoriesRe[0]);
@@ -25,7 +23,7 @@ const CourseContainer = ({
     context.getProductByQuery(query)
       .then(items => {
         console.log(items);
-        setProducts(items.data);
+        setProducts(items.data.records);
         return;
       })
   }

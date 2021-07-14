@@ -20,9 +20,8 @@ export const ProductProvider = ({ children }) => {
         const response = await api.get('/products', { params: Query });
         return response;
     }
-    async function getSearch(key) {
-        let Query = { keyword: key }
-        const response = await api.get('/products/search', { params: Query });
+    async function getSearch(query) {
+        const response = await api.get('/products/search', { params: query });
         return response;
     }
     return (
