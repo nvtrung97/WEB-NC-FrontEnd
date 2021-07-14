@@ -24,7 +24,7 @@ const CourseCard = ({
   isWeekend,
   isWeekday,
   lecturer,
-  learnMoreLink,
+  productId,
   imageLink,
   categoryName,
   reviews,
@@ -78,7 +78,7 @@ const CourseCard = ({
       </div>
 
       <div className="link">
-        <Link onClick={(e) => e.preventDefault()} to={learnMoreLink}>
+        <Link to={`/detail/${productId}`}>
           LEARN MORE
         </Link>
       </div>

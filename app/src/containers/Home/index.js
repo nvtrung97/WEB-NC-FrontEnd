@@ -121,6 +121,7 @@ const Home = () => {
                   lecturer={item.author_name}
                   reviews={item.number_reviews}
                   score={item.score}
+                  productId = {item._id}
                 />
 
               ))}
@@ -151,6 +152,7 @@ const Home = () => {
                   lecturer={item.author_name}
                   reviews={item.number_reviews}
                   score={item.score}
+                  productId = {item._id}
                 />
 
               ))}
@@ -181,6 +183,7 @@ const Home = () => {
                   lecturer={item.author_name}
                   reviews={item.number_reviews}
                   score={item.score}
+                  productId = {item._id}
                 />
 
               ))}

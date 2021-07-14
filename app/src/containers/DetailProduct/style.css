@@ -1,16 +1,16 @@
-.app{
+.app123{
     max-width: 1200px;
     width: 100%;
     margin: 100px auto;
     box-shadow: 0 0 5px #ccc;
   }
-  .details{
+  .details123{
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     padding: 30px 0;
   }
-  .details .big-img{
+  .details123 .big-img{
     max-width: 500px;
     min-width: 290px;
     overflow: hidden;
@@ -24,7 +24,7 @@
     object-fit: cover;
   }
   
-  .details .box{
+  .details123 .box{
     max-width: 500px;
     min-width: 290px;
     margin: 25px;

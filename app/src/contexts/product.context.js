@@ -24,8 +24,12 @@ export const ProductProvider = ({ children }) => {
         const response = await api.get('/products/search', { params: query });
         return response;
     }
+    async function getDetailProductById(id) {
+        const response = await api.get(`/products/${id}`);
+        return response;
+    }
     return (
-        <ProductContext.Provider value={{ getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch }}>
+        <ProductContext.Provider value={{ getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch, getDetailProductById }}>
             {children}
         </ProductContext.Provider>
     );

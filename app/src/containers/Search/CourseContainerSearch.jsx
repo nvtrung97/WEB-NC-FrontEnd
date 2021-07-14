@@ -66,6 +66,7 @@ const CourseContainer = ({
                                 lecturer={course.author_name}
                                 reviews={course.number_reviews}
                                 score={course.score}
+                                productId={course._id}
                             />
                         )
                     )

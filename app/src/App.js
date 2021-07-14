@@ -31,12 +31,10 @@ function App() {
                 <Route exact path="/signin" component={Signin} />
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/search" component={Search} />
-                <Route exact path="/detail" component={DetailPage} />
+                <Route exact path="/detail/:id" component={DetailPage} />
               </Switch>
-            
-              <Footer  className = 'footer_a'/>
-    
-             
+              <hr className="seperator" style={{opacity: '0.5'}}/>
+              <Footer  className = 'footer_a'/>         
             </BrowserRouter>
           </ProductProvider>
         </CategoryProvider>
