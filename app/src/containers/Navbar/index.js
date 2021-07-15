@@ -1,5 +1,5 @@
 import { useAuth } from '../../contexts/auth.context';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -14,10 +14,16 @@ import Avatar from '@material-ui/core/Avatar';
 import SearchBar from './search';
 import Catego from './category';
 const Navbar = () => {
-  const AuthContext = useAuth();
-  let authenticated, user;
-  user = AuthContext.user
-  authenticated = AuthContext.authenticated;
+
+  const { authenticated, user, signOut } = useAuth();
+  let [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    let mounted = true;
+    if (mounted && user) {
+      setUserInfo(user.user);
+      mounted = false;
+    }
+  });
   const [isShowMobileNav, setIsShowMobileNav] = useState(false);
   let history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,7 +32,7 @@ const Navbar = () => {
     setAnchorEl(event.currentTarget);
   };
   const handleCloseLogout = () => {
-    AuthContext.signOut();
+    signOut();
     return window.location.reload();
   };
   const handleClose = () => {
@@ -35,33 +41,25 @@ const Navbar = () => {
   function handleClickLogin() {
     history.push("/signin");
   }
-  let userName = '';
-  let avatar = '';
-  if (_.has(user.user, 'user_id')) {
-    userName = user.user.full_name;
-    avatar = user.user.avatar_url;
-  }
   return (
     <nav className="container">
       <a href="/">
         <img src={CampK12Logo} alt="Camp K12 Logo" />
       </a>
       <div className={isShowMobileNav ? 'nav-items-mobile' : 'nav-items'}>
-        <SearchBar style={{padding: '10px',marginLeft: '60px'}}/>
-       
+        <SearchBar style={{ padding: '10px', marginLeft: '60px' }} />
+
         <div>
-        <Catego />
+          <Catego />
           <button className="leaderboard">
             <img alt="" role="button" src={Leaderboard} />
           </button>
           <button>
             Free Trial
           </button>
-          {authenticated === true ?
+          {authenticated === true && userInfo ?
             <div>
-              <Button onClick={handleClick} className='editProfile'>
-                {'Hello:' + userName}
-              </Button>
+              <Avatar className='size-avatar' alt="Remy Sharp" src={userInfo.avatar_url} onClick={handleClick} style ={{marginTop:'10px'}} />
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -69,7 +67,7 @@ const Navbar = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile <Avatar className='size-avatar' alt="Remy Sharp" src={avatar} /></MenuItem>
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
               </Menu>
@@ -84,6 +82,7 @@ const Navbar = () => {
       </button>
     </nav>
   )
+  
 }
 
 export default Navbar;

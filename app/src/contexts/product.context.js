@@ -34,12 +34,12 @@ export const ProductProvider = ({ children }) => {
     }
     async function createReview(entity, productId) {
         let params = { product_id: productId }
-        const response = await api.post(`/reviews`, entity, { params });
+        const response = await api.post('/reviews', entity, { params });
         return response;
     }
     async function getAllReviews(productId) {
         let params = { product_id: productId }
-        const response = await api.post(`/reviews`, { params });
+        const response = await api.get(`/reviews`, { params });
         return response;
     }
     return (

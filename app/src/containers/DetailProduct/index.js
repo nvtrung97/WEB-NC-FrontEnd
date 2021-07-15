@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Colors from '../../components/Colors'
 import DetailsThumb from '../../components/DetailsThumb';
 import './style.css'
@@ -18,9 +18,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import reviewImage from '../../static/review.svg';
 import Carousels from "react-elastic-carousel";
 import moment from 'moment';
+import SendIcon from '@material-ui/icons/Send';
 import { Redirect } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import Review from './reviews/index';
+import Button from '@material-ui/core/Button';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -42,6 +54,7 @@ const breakPoints = [
   { width: 1200, itemsToShow: 4 }
 ];
 const DetailPage = () => {
+  const reviewValueSend = useRef('')
   const classes = useStyles();
   let contextProduct = useProduct();
   let contextProfile = useProfile();
@@ -49,6 +62,7 @@ const DetailPage = () => {
   const { id } = useParams();
   let { authenticated } = useAuth();
   const [products, setProducts] = useState({});
+  const [reviews, setReviews] = useState([]);
   const [isLearn, setIsLearn] = useState(true);
   const [videos, setVideos] = useState([]);
   const [imageThunal, setImageThunal] = useState(['https://thietkegame.com/wp-content/uploads/2020/03/loading-8bit.jpg']);
@@ -73,6 +87,11 @@ const DetailPage = () => {
               })
           }
         })
+      contextProduct.getAllReviews(id).then((res) => {
+        setReviews(res.data.reverse());
+      }).catch((err) => {
+        console.log(err);
+      })
     }, 0);
     return () => mounted = false;
   }, [])
@@ -102,6 +121,39 @@ const DetailPage = () => {
   const handleJoinLearnContinue = () => {
     history.push(`/detail/${id}/videos`)
   }
+  const [rate, setRate] = useState(5);
+  const sendReviews = () => {
+    let entity = {
+      score: rate,
+      content: reviewValueSend.current.value
+    }
+    contextProduct.createReview(entity, id).then((res) => {
+      console.log(res);
+    }).catch((rerr) => {
+      console.log(rerr);
+    })
+    console.log(entity);
+  }
+  createNotification = (type) => {
+    return () => {
+      switch (type) {
+        case 'info':
+          NotificationManager.info('Info message');
+          break;
+        case 'success':
+          NotificationManager.success('Success message', 'Title here');
+          break;
+        case 'warning':
+          NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+          break;
+        case 'error':
+          NotificationManager.error('Error message', 'Click me!', 5000, () => {
+            alert('callback');
+          });
+          break;
+      }
+    };
+  };
   return (
     <div className="app123">
       {
@@ -109,22 +161,59 @@ const DetailPage = () => {
           <div className="details123" >
             <div className="big-img123">
               <img src={imageThunal[index]} alt="" />
-              <div style={{ padding: 14, fontSize: '13px' }} className="App">
-                <h1>Reviews</h1>
-                {/* <Review/> */}
-              </div>
+              <h1>Reviews</h1>
+
+              <FormControl className={classes.margin} style={{ marginLeft: '20px' }}>
+                <InputLabel htmlFor="input-with-icon-adornment">Reviews content</InputLabel>
+                <Input
+                  id="input-with-icon-adornment"
+                  inputRef={reviewValueSend}
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  }
+
+                />
+                <Rating style={{ marginTop: '10px' }}
+                  name="simple-controlled"
+                  value={rate}
+                  onChange={(event, newValue) => {
+                    setRate(newValue);
+                  }}
+                />
+              </FormControl>
+
+              <Button
+                style={{ marginTop: '13px', marginLeft: '10px', background: '#50a3ec47' }}
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                endIcon={<SendIcon />}
+                onClick={sendReviews}
+              >
+                Send
+              </Button>
+
+
+              {reviews.length == 0 ? <div style ={{marginTop:'20px'}}>No reviews</div> :
+                <Review reviews={reviews} />
+              }
+
             </div>
             <div className="box">
               <div className="row">
                 <h2>{products.name}</h2>
-                <span style={{ color: '#bb495e' }}>Free</span>
+                {isLearn ? <FavoriteIcon style={{ color: 'red', fontSize:'40px' }} /> : <span style={{ color: '#bb495e' }}>Free</span>}
+
+
+
               </div>
 
 
               <Colors colors={["red", "black", "crimson", "teal"]} />
               <p><b>Author: </b> {products.full_name}</p>
-              <p><Rating name="disabled" value={products.score / 2} disabled style={{ marginRight: '20px' }} />
-
+              <p><Rating name="disabled" value={products.score} readOnly style={{ marginRight: '20px' }} />
               </p>
               <p>
                 {'    ' + products.number_reviews + ' reviews '}
