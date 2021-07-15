@@ -31,16 +31,19 @@ const CourseCard = ({
   score
 }) => (
   <div className="course-card">
-    <div style={{height: '150px',width: '250px',margin: 'auto', padding:'10px', backgroundColor: white, borderRadius: '5px', marginTop: '13px', opacity: '0.8'}}>
-      {imageLink ? <div className="edit_mainge_ok" ><img alt="" className="edit_mainge" src={imageLink} style={{ maxHeight: '150px', maxWidth: '250px',  }} /></div>
+    <div style={{ height: '150px', width: '250px', margin: 'auto', padding: '10px', backgroundColor: white, borderRadius: '5px', marginTop: '13px', opacity: '0.8' }}>
+      {imageLink ? <div className="edit_mainge_ok" ><img alt="" className="edit_mainge" src={imageLink} style={{ maxHeight: '150px', maxWidth: '250px', }} /></div>
         : <div className="card-image" />}
     </div>
 
     <div className="card-body">
       <div className="title">
-        <h6>
-          {title}
-        </h6>
+        <Link to={`/detail/${productId}`} style={{ textDecoration: 'none' }}>
+          <h6>
+            {title}
+          </h6>
+        </Link>
+
       </div>
       <div className="details">
         <div className="detail">

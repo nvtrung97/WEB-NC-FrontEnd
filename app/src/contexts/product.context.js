@@ -28,6 +28,10 @@ export const ProductProvider = ({ children }) => {
         const response = await api.get(`/products/${id}`);
         return response;
     }
+    async function getRegisted(id) {
+        const response = await api.get(`/products/${id}`);
+        return response;
+    }
     return (
         <ProductContext.Provider value={{ getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch, getDetailProductById }}>
             {children}
