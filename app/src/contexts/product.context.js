@@ -28,12 +28,12 @@ export const ProductProvider = ({ children }) => {
         const response = await api.get(`/products/${id}`);
         return response;
     }
-    async function getRegisted(id) {
-        const response = await api.get(`/products/${id}`);
+    async function getVideosByProductId(id) {
+        const response = await api.get(`/products/${id}/videos`);
         return response;
     }
     return (
-        <ProductContext.Provider value={{ getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch, getDetailProductById }}>
+        <ProductContext.Provider value={{ getVideosByProductId,getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch, getDetailProductById }}>
             {children}
         </ProductContext.Provider>
     );
