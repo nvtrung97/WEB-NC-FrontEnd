@@ -11,6 +11,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useParams } from "react-router";
+import ReactNotification from 'react-notifications-component'
 import Rating from '@material-ui/lab/Rating';
 import CourseCard from 'components/CourseCard';
 import { BoxLoading } from 'react-loadingg';
@@ -31,8 +32,9 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Review from './reviews/index';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
-
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -54,6 +56,7 @@ const breakPoints = [
   { width: 1200, itemsToShow: 4 }
 ];
 const DetailPage = () => {
+
   const reviewValueSend = useRef('')
   const classes = useStyles();
   let contextProduct = useProduct();
@@ -64,10 +67,12 @@ const DetailPage = () => {
   const [products, setProducts] = useState({});
   const [reviews, setReviews] = useState([]);
   const [isLearn, setIsLearn] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
   const [videos, setVideos] = useState([]);
   const [imageThunal, setImageThunal] = useState(['https://thietkegame.com/wp-content/uploads/2020/03/loading-8bit.jpg']);
   let history = useHistory()
   useEffect(() => {
+
     let mounted = true;
     setTimeout(function () {
       contextProduct.getDetailProductById(id)
@@ -78,6 +83,7 @@ const DetailPage = () => {
             setVideos(items.data.videos);
             setImageThunal(imagesThum);
             setIsLearn(items.data.registered);
+            setIsLiked(items.data.liked);
             contextProduct.getProductByQuery({ category_id: items.data.category_id })
               .then(it => {
                 if (mounted) {
@@ -97,7 +103,6 @@ const DetailPage = () => {
   }, [])
   const [index, setIndex] = useState(0)
   let myRef = React.createRef();
-
   const handleTab = (index) => {
     setIndex(index);
     const images = myRef.current.children;
@@ -109,8 +114,8 @@ const DetailPage = () => {
   const handleJoin = () => {
     if (authenticated) {
       contextProfile.registerCourese({ product_id: id }).then((res) => {
-        alert("Register success");
-        history.push(`/detail/${id}/videos`)
+        addNoti("Add successful courses","success")
+        setTimeout(function () { history.push(`/detail/${id}/videos`) }, 3000);
       }).catch((err) => {
         alert("Something wrong");
       })
@@ -128,34 +133,41 @@ const DetailPage = () => {
       content: reviewValueSend.current.value
     }
     contextProduct.createReview(entity, id).then((res) => {
+
       console.log(res);
     }).catch((rerr) => {
       console.log(rerr);
     })
     console.log(entity);
   }
-  createNotification = (type) => {
-    return () => {
-      switch (type) {
-        case 'info':
-          NotificationManager.info('Info message');
-          break;
-        case 'success':
-          NotificationManager.success('Success message', 'Title here');
-          break;
-        case 'warning':
-          NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
-          break;
-        case 'error':
-          NotificationManager.error('Error message', 'Click me!', 5000, () => {
-            alert('callback');
-          });
-          break;
+  const handleYeuThich = () => {
+    if(isLiked){
+      addNoti('Remove wishlist successfully', 'success',"Remove");
+      setIsLiked(false);
+    } else{
+      addNoti('Add wishlist successfully', 'success',"Add")
+      setIsLiked(true);
+    }
+    
+  }
+  const addNoti = (mes, type, title) => {
+    store.addNotification({
+      title: title,
+      message: mes,
+      type: type,
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss: {
+        duration: 2000,
+        onScreen: true
       }
-    };
-  };
+    });
+  }
   return (
     <div className="app123">
+      <ReactNotification style={{ marginRight: '100px' }} />
       {
         products ? (
           <div className="details123" >
@@ -196,7 +208,7 @@ const DetailPage = () => {
               </Button>
 
 
-              {reviews.length == 0 ? <div style ={{marginTop:'20px'}}>No reviews</div> :
+              {reviews.length == 0 ? <div style={{ marginTop: '20px' }}>No reviews</div> :
                 <Review reviews={reviews} />
               }
 
@@ -204,7 +216,10 @@ const DetailPage = () => {
             <div className="box">
               <div className="row">
                 <h2>{products.name}</h2>
-                {isLearn ? <FavoriteIcon style={{ color: 'red', fontSize:'40px' }} /> : <span style={{ color: '#bb495e' }}>Free</span>}
+                {isLearn ? 
+                <FavoriteIcon style={{ color: isLiked? 'red': 'white', fontSize: '40px' }} onClick={handleYeuThich} /> 
+                
+                : <span style={{ color: '#bb495e' }}>Free</span>}
 
 
 

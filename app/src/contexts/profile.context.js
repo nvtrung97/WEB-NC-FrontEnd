@@ -12,9 +12,17 @@ export const ProfileProvider = ({ children }) => {
         const response = await api.get('/profiles/registered-lists');
         return response;
     }
-
+    async function createWishList(entity) {
+        const response = await api.post('/watch-lists', entity);
+        return response;
+    }
+    async function deleteWishList(productId) {
+        let params = { product_id: productId }
+        const response = await api.post('/watch-lists', { params });
+        return response;
+    }
     return (
-        <ProfileContext.Provider value={{ registerCourese, getProfile }}>
+        <ProfileContext.Provider value={{ registerCourese, getProfile, createWishList, deleteWishList }}>
             {children}
         </ProfileContext.Provider>
     );
