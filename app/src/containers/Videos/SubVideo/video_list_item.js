@@ -35,7 +35,7 @@ const VideoListItem = ({ video, onVideoSelect }) => {
                         {'tile dscsdcsdcsdcsdcsdcsdcsdc'}
                     </div>
                     <div className="media-heading-channel-title">
-                        {video.snippet.channelTitle}
+                        {'scdcdscsdvsdgggsfgsfgd'}
                     </div>
                     <div className="media-heading-channel-date">
                         {date}
