@@ -4,6 +4,7 @@ import DetailsThumb from '../../components/DetailsThumb';
 import './style.css'
 import { useProduct } from '../../contexts/product.context';
 import { useCategory } from '../../contexts/categories.context';
+import { useAuth } from '../../contexts/auth.context';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -42,6 +43,7 @@ const DetailPage = () => {
   let contextProduct = useProduct();
   const [productSuchas, setProductSuchas] = useState([]);
   const { id } = useParams();
+  let { authenticated } = useAuth();
   const [products, setProducts] = useState({});
   const [isLearn, setIsLearn] = useState(true);
   const [videos, setVideos] = useState([]);
@@ -66,9 +68,6 @@ const DetailPage = () => {
             })
         }
       })
-
-
-
     return () => mounted = false;
   }, [])
   const [index, setIndex] = useState(0)
@@ -82,6 +81,16 @@ const DetailPage = () => {
     }
     images[index].className = "active";
   };
+  const handleJoin = () => {
+    if (authenticated) {
+      console.log('đã login');
+    } else{
+      console.log('CHƯA LOGIN');
+    }
+  }
+
+
+
   return (
     <div className="app123">
       {
@@ -112,7 +121,7 @@ const DetailPage = () => {
               <DetailsThumb images={imageThunal} tab={handleTab} myRef={myRef} />
               {
                 isLearn ? <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }}>Learn continue</button> :
-                  <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }}>Join</button>
+                  <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }} onClick={handleJoin}>Join</button>
 
               }
 
@@ -153,7 +162,7 @@ const DetailPage = () => {
 
       }
       <div className="ok_setthoi" style={{ marginBottom: '50px' }}>
-        <hr className="seperator"     style={{width: '80%'}}/>
+        <hr className="seperator" style={{ width: '80%' }} />
         <div style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)', padding: '20px' }}>
           <p style={{ textAlign: "center", color: 'white', fontSize: '30px' }}>Suggest courses of the same category</p>
           <div className="carousel-wrapper" style={{ marginTop: '50px' }}>
