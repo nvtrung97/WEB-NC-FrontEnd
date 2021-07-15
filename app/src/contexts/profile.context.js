@@ -4,7 +4,7 @@ import api from '../services/api.service';
 export const ProfileContext = createContext({});
 
 export const ProfileProvider = ({ children }) => {
-    async function createProfile(entity) {
+    async function registerCourese(entity) {
         const response = await api.post('/profiles/registered-lists', entity);
         return response;
     }
@@ -14,7 +14,7 @@ export const ProfileProvider = ({ children }) => {
     }
 
     return (
-        <ProfileContext.Provider value={{ createProfile, getProfile }}>
+        <ProfileContext.Provider value={{ registerCourese, getProfile }}>
             {children}
         </ProfileContext.Provider>
     );

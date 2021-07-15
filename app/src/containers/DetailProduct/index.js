@@ -3,7 +3,7 @@ import Colors from '../../components/Colors'
 import DetailsThumb from '../../components/DetailsThumb';
 import './style.css'
 import { useProduct } from '../../contexts/product.context';
-import { useCategory } from '../../contexts/categories.context';
+import { useProfile } from '../../contexts/profile.context';
 import { useAuth } from '../../contexts/auth.context';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -18,6 +18,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import reviewImage from '../../static/review.svg';
 import Carousels from "react-elastic-carousel";
 import moment from 'moment';
+import { Redirect } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+import Review from './reviews/index';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -41,6 +44,7 @@ const breakPoints = [
 const DetailPage = () => {
   const classes = useStyles();
   let contextProduct = useProduct();
+  let contextProfile = useProfile();
   const [productSuchas, setProductSuchas] = useState([]);
   const { id } = useParams();
   let { authenticated } = useAuth();
@@ -48,26 +52,28 @@ const DetailPage = () => {
   const [isLearn, setIsLearn] = useState(true);
   const [videos, setVideos] = useState([]);
   const [imageThunal, setImageThunal] = useState(['https://thietkegame.com/wp-content/uploads/2020/03/loading-8bit.jpg']);
-
+  let history = useHistory()
   useEffect(() => {
     let mounted = true;
-    contextProduct.getDetailProductById(id)
-      .then(items => {
-        if (mounted) {
-          setProducts(items.data);
-          imagesThum.unshift(items.data.url_image);
-          setVideos(items.data.videos);
-          setImageThunal(imagesThum);
-          setIsLearn(items.data.registered);
-          contextProduct.getProductByQuery({ category_id: items.data.category_id })
-            .then(it => {
-              if (mounted) {
-                const result = it.data.records.filter(function (el) { return el._id != items.data._id; });
-                setProductSuchas(result);
-              }
-            })
-        }
-      })
+    setTimeout(function () {
+      contextProduct.getDetailProductById(id)
+        .then(items => {
+          if (mounted) {
+            setProducts(items.data);
+            imagesThum.unshift(items.data.url_image);
+            setVideos(items.data.videos);
+            setImageThunal(imagesThum);
+            setIsLearn(items.data.registered);
+            contextProduct.getProductByQuery({ category_id: items.data.category_id })
+              .then(it => {
+                if (mounted) {
+                  const result = it.data.records.filter(function (el) { return el._id != items.data._id; });
+                  setProductSuchas(result);
+                }
+              })
+          }
+        })
+    }, 0);
     return () => mounted = false;
   }, [])
   const [index, setIndex] = useState(0)
@@ -83,14 +89,19 @@ const DetailPage = () => {
   };
   const handleJoin = () => {
     if (authenticated) {
-      console.log('đã login');
-    } else{
-      console.log('CHƯA LOGIN');
+      contextProfile.registerCourese({ product_id: id }).then((res) => {
+        alert("Register success");
+        history.push(`/detail/${id}/videos`)
+      }).catch((err) => {
+        alert("Something wrong");
+      })
+    } else {
+      history.push('/signin')
     }
   }
-
-
-
+  const handleJoinLearnContinue = () => {
+    history.push(`/detail/${id}/videos`)
+  }
   return (
     <div className="app123">
       {
@@ -98,6 +109,10 @@ const DetailPage = () => {
           <div className="details123" >
             <div className="big-img123">
               <img src={imageThunal[index]} alt="" />
+              <div style={{ padding: 14, fontSize: '13px' }} className="App">
+                <h1>Reviews</h1>
+                {/* <Review/> */}
+              </div>
             </div>
             <div className="box">
               <div className="row">
@@ -120,7 +135,7 @@ const DetailPage = () => {
               <p style={{ opacity: 0.4, fontStyle: 'oblique', fontSize: '13px' }}><b>Update at: </b>{moment(products.update_at).format("hh:mm DD/MM/YYYY")}</p>
               <DetailsThumb images={imageThunal} tab={handleTab} myRef={myRef} />
               {
-                isLearn ? <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }}>Learn continue</button> :
+                isLearn ? <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }} onClick={handleJoinLearnContinue}>Learn continue</button> :
                   <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }} onClick={handleJoin}>Join</button>
 
               }

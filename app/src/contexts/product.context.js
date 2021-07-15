@@ -32,8 +32,18 @@ export const ProductProvider = ({ children }) => {
         const response = await api.get(`/products/${id}/videos`);
         return response;
     }
+    async function createReview(entity, productId) {
+        let params = { product_id: productId }
+        const response = await api.post(`/reviews`, entity, { params });
+        return response;
+    }
+    async function getAllReviews(productId) {
+        let params = { product_id: productId }
+        const response = await api.post(`/reviews`, { params });
+        return response;
+    }
     return (
-        <ProductContext.Provider value={{ getVideosByProductId,getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch, getDetailProductById }}>
+        <ProductContext.Provider value={{ createReview, getAllReviews, getVideosByProductId, getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch, getDetailProductById }}>
             {children}
         </ProductContext.Provider>
     );
