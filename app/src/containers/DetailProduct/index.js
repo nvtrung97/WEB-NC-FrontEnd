@@ -43,6 +43,7 @@ const DetailPage = () => {
   const [productSuchas, setProductSuchas] = useState([]);
   const { id } = useParams();
   const [products, setProducts] = useState({});
+  const [isLearn, setIsLearn] = useState(false);
   const [videos, setVideos] = useState([]);
   const [imageThunal, setImageThunal] = useState(['https://thietkegame.com/wp-content/uploads/2020/03/loading-8bit.jpg']);
 
@@ -59,7 +60,7 @@ const DetailPage = () => {
           contextProduct.getProductByQuery({ category_id: items.data.category_id })
             .then(it => {
               if (mounted) {
-                const result = it.data.records.filter(function(el) { return el._id != items.data._id; });
+                const result = it.data.records.filter(function (el) { return el._id != items.data._id; });
                 console.log(result);
                 setProductSuchas(result);
               }
@@ -110,8 +111,13 @@ const DetailPage = () => {
               <p>{products.full_description}</p>
               <p style={{ opacity: 0.4, fontStyle: 'oblique', fontSize: '13px' }}><b>Update at: </b>{moment(products.update_at).format("hh:mm DD/MM/YYYY")}</p>
               <DetailsThumb images={imageThunal} tab={handleTab} myRef={myRef} />
+              {
+                isLearn ? <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }}>Learn continue</button> :
+                  <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }}>Join</button>
 
-              <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }}>Join</button>
+              }
+
+
               <Accordion style={{
                 background: 'none',
                 marginTop: '20px',
