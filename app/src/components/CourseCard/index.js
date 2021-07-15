@@ -38,7 +38,7 @@ const CourseCard = ({
 
     <div className="card-body">
       <div className="title">
-        <Link to={`/detail/${productId}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/detail/${productId}`} style={{ textDecoration: 'none' }} onClick={() => { setTimeout(() => { window.location.reload(false); }, 0); }}>
           <h6>
             {title}
           </h6>
@@ -81,7 +81,7 @@ const CourseCard = ({
       </div>
 
       <div className="link">
-        <Link to={`/detail/${productId}`}>
+        <Link to={`/detail/${productId}`} onClick={() => { setTimeout(() => { window.location.reload(false); }, 0); }}>
           LEARN MORE
         </Link>
       </div>

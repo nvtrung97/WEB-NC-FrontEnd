@@ -43,7 +43,7 @@ const DetailPage = () => {
   const [productSuchas, setProductSuchas] = useState([]);
   const { id } = useParams();
   const [products, setProducts] = useState({});
-  const [isLearn, setIsLearn] = useState(false);
+  const [isLearn, setIsLearn] = useState(true);
   const [videos, setVideos] = useState([]);
   const [imageThunal, setImageThunal] = useState(['https://thietkegame.com/wp-content/uploads/2020/03/loading-8bit.jpg']);
 
@@ -56,12 +56,11 @@ const DetailPage = () => {
           imagesThum.unshift(items.data.url_image);
           setVideos(items.data.videos);
           setImageThunal(imagesThum);
-          console.log(items);
+          setIsLearn(items.data.registered);
           contextProduct.getProductByQuery({ category_id: items.data.category_id })
             .then(it => {
               if (mounted) {
                 const result = it.data.records.filter(function (el) { return el._id != items.data._id; });
-                console.log(result);
                 setProductSuchas(result);
               }
             })
@@ -154,7 +153,7 @@ const DetailPage = () => {
 
       }
       <div className="ok_setthoi" style={{ marginBottom: '50px' }}>
-        <hr className="seperator" />
+        <hr className="seperator"     style={{width: '80%'}}/>
         <div style={{ boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)', padding: '20px' }}>
           <p style={{ textAlign: "center", color: 'white', fontSize: '30px' }}>Suggest courses of the same category</p>
           <div className="carousel-wrapper" style={{ marginTop: '50px' }}>
