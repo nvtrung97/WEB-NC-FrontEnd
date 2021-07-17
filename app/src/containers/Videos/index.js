@@ -73,6 +73,7 @@ const Videos = () => {
                             <video width={600} height={400} poster="https://duhocvietglobal.com/wp-content/uploads/2018/12/dat-nuoc-va-con-nguoi-anh-quoc.jpg" controls>
                                 <source src={'https://drive.google.com/uc?id=14cCa240CK01-P87QjUrOpf5LiUoHrW7A#t=10,20'} type="video/mp4" />
 
+
                             </video>
                         </div>
                         <div className="box">
