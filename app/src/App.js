@@ -19,6 +19,7 @@ import Search from 'containers/Search';
 import Footer from './components/Footer/index';
 import DetailPage from './containers/DetailProduct/index';
 import Videos from './containers/Videos/index';
+
 function App() {
   return (
     <div>
@@ -34,6 +35,7 @@ function App() {
                   <Route exact path="/signup" component={Signup} />
                   <Route exact path="/search" component={Search} />
                   <Route exact path="/detail/:id" component={DetailPage} />
+                
                   <Route exact path="/detail/:id/videos" component={Videos} />
                 </Switch>
                 <hr className="seperator" style={{ opacity: '0.5' }} />

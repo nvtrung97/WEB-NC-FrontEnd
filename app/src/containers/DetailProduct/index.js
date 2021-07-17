@@ -63,10 +63,11 @@ const DetailPage = () => {
   let contextProfile = useProfile();
   const [productSuchas, setProductSuchas] = useState([]);
   const { id } = useParams();
-  let { authenticated } = useAuth();
+  let { authenticated, user } = useAuth();
   const [products, setProducts] = useState({});
   const [reviews, setReviews] = useState([]);
   const [isLearn, setIsLearn] = useState(true);
+  const [isReview, setIsReview] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [videos, setVideos] = useState([]);
   const [imageThunal, setImageThunal] = useState(['https://thietkegame.com/wp-content/uploads/2020/03/loading-8bit.jpg']);
@@ -84,6 +85,7 @@ const DetailPage = () => {
             setImageThunal(imagesThum);
             setIsLearn(items.data.registered);
             setIsLiked(items.data.liked);
+            setIsReview(items.data.reviewed);
             contextProduct.getProductByQuery({ category_id: items.data.category_id })
               .then(it => {
                 if (mounted) {
@@ -94,7 +96,8 @@ const DetailPage = () => {
           }
         })
       contextProduct.getAllReviews(id).then((res) => {
-        setReviews(res.data.reverse());
+    
+        setReviews(res.data);
       }).catch((err) => {
         console.log(err);
       })
@@ -114,13 +117,13 @@ const DetailPage = () => {
   const handleJoin = () => {
     if (authenticated) {
       contextProfile.registerCourese({ product_id: id }).then((res) => {
-        addNoti("Add successful courses","success")
+        addNoti("Add successful courses", "success")
         setTimeout(function () { history.push(`/detail/${id}/videos`) }, 3000);
       }).catch((err) => {
         alert("Something wrong");
       })
     } else {
-      history.push('/signin')
+      history.push('/signin');
     }
   }
   const handleJoinLearnContinue = () => {
@@ -133,22 +136,43 @@ const DetailPage = () => {
       content: reviewValueSend.current.value
     }
     contextProduct.createReview(entity, id).then((res) => {
-
       console.log(res);
+      addNoti('Add review successfully', 'success', "Add");
+      setTimeout(function () { window.location.reload(false); }, 2000);
+      //Xử lí review
+      let temp = reviews;
+      let entityTemp = {
+        ...entity,
+        create_at: (new Date()).toISOString(),
+        full_name: user.user.full_name,
+        avatar_url: user.user.avatar_url,
+      }
+      temp.unshift(entityTemp);
+      setReviews(temp);
     }).catch((rerr) => {
       console.log(rerr);
+      addNoti('Add review faild', 'danger', "Add")
     })
     console.log(entity);
   }
   const handleYeuThich = () => {
-    if(isLiked){
-      addNoti('Remove wishlist successfully', 'success',"Remove");
-      setIsLiked(false);
-    } else{
-      addNoti('Add wishlist successfully', 'success',"Add")
-      setIsLiked(true);
+    if (isLiked) {
+      contextProfile.deleteWishList(id).then((res) => {
+        addNoti('Remove wishlist successfully', 'success', "Remove");
+        setIsLiked(false);
+      }).catch((err) => {
+        console.log(err);
+        addNoti('Remove wishlist faild', 'danger', "Remove")
+      })
+    } else {
+      contextProfile.createWishList({ product_id: id }).then((res) => {
+        addNoti('Add wishlist successfully', 'success', "Add");
+        setIsLiked(true);
+      }).catch((err) => {
+        addNoti('Add wishlist faild', 'danger', "Add")
+      })
     }
-    
+
   }
   const addNoti = (mes, type, title) => {
     store.addNotification({
@@ -174,40 +198,40 @@ const DetailPage = () => {
             <div className="big-img123">
               <img src={imageThunal[index]} alt="" />
               <h1>Reviews</h1>
+              {
+                !isReview && authenticated && isLearn ? <div>
+                  <FormControl className={classes.margin} style={{ marginLeft: '20px' }}>
+                    <InputLabel htmlFor="input-with-icon-adornment">Reviews content</InputLabel>
+                    <Input
+                      id="input-with-icon-adornment"
+                      inputRef={reviewValueSend}
+                      startAdornment={
+                        <InputAdornment position="start">
+                          <AccountCircle />
+                        </InputAdornment>
+                      }
 
-              <FormControl className={classes.margin} style={{ marginLeft: '20px' }}>
-                <InputLabel htmlFor="input-with-icon-adornment">Reviews content</InputLabel>
-                <Input
-                  id="input-with-icon-adornment"
-                  inputRef={reviewValueSend}
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  }
-
-                />
-                <Rating style={{ marginTop: '10px' }}
-                  name="simple-controlled"
-                  value={rate}
-                  onChange={(event, newValue) => {
-                    setRate(newValue);
-                  }}
-                />
-              </FormControl>
-
-              <Button
-                style={{ marginTop: '13px', marginLeft: '10px', background: '#50a3ec47' }}
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                endIcon={<SendIcon />}
-                onClick={sendReviews}
-              >
-                Send
-              </Button>
-
-
+                    />
+                    <Rating style={{ marginTop: '10px' }}
+                      name="simple-controlled"
+                      value={rate}
+                      onChange={(event, newValue) => {
+                        setRate(newValue);
+                      }}
+                    />
+                  </FormControl>
+                  <Button
+                    style={{ marginTop: '13px', marginLeft: '10px', background: '#50a3ec47' }}
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    endIcon={<SendIcon />}
+                    onClick={sendReviews}
+                  >
+                    Send
+                  </Button>
+                </div> : ''
+              }
               {reviews.length == 0 ? <div style={{ marginTop: '20px' }}>No reviews</div> :
                 <Review reviews={reviews} />
               }
@@ -216,10 +240,10 @@ const DetailPage = () => {
             <div className="box">
               <div className="row">
                 <h2>{products.name}</h2>
-                {isLearn ? 
-                <FavoriteIcon style={{ color: isLiked? 'red': 'white', fontSize: '40px' }} onClick={handleYeuThich} /> 
-                
-                : <span style={{ color: '#bb495e' }}>Free</span>}
+                {isLearn ?
+                  <FavoriteIcon style={{ color: isLiked ? 'red' : 'white', fontSize: '40px' }} onClick={handleYeuThich} />
+
+                  : <span style={{ color: '#bb495e' }}>Free</span>}
 
 
 
@@ -228,7 +252,8 @@ const DetailPage = () => {
 
               <Colors colors={["red", "black", "crimson", "teal"]} />
               <p><b>Author: </b> {products.full_name}</p>
-              <p><Rating name="disabled" value={products.score} readOnly style={{ marginRight: '20px' }} />
+              <p><Rating name="disabled" value={Number(products.score)} readOnly style={{ marginRight: '20px' }} />
+      
               </p>
               <p>
                 {'    ' + products.number_reviews + ' reviews '}

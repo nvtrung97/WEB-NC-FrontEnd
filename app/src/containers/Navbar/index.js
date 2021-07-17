@@ -59,7 +59,7 @@ const Navbar = () => {
           </button>
           {authenticated === true && userInfo ?
             <div>
-              <Avatar className='size-avatar' alt="Remy Sharp" src={userInfo.avatar_url} onClick={handleClick} style ={{marginTop:'10px'}} />
+              <Avatar className='size-avatar' alt="Remy Sharp" src={userInfo.avatar_url} onClick={handleClick} style ={{marginTop:'10px', backgroundColor:'white'}} />
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}

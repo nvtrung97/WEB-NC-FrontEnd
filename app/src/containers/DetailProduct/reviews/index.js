@@ -1,22 +1,11 @@
-import React from "react";
+import React, { useState ,useEffect} from "react";
 import ReactDOM from "react-dom";
 import moment from 'moment'
 import { Divider, Avatar, Grid, Paper } from "@material-ui/core";
 import Rating from '@material-ui/lab/Rating';
 import "./style.css";
-
-const imgLink =
-    "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
-
-function Reviews({ reviews }) {
-    console.log(reviews);
-    if (reviews.length >= 3) {
-        let temp = [];
-        temp.push(reviews[0]);
-        temp.push(reviews[1]);
-        temp.push(reviews[2]);
-        reviews = temp;
-    }
+const Reviews = ({reviews}) => {
+ 
     return (
         <div style={{ padding: 14 }} className="App">
             <Paper style={{ padding: "30px 10px", borderRadius: '5px', background: '#abc2d659' }}>
@@ -24,7 +13,7 @@ function Reviews({ reviews }) {
                     <div>
                         <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
-                                <Avatar alt="Remy Sharp" src={imgLink} />
+                                <Avatar alt="Remy Sharp" src={re.avatar_url} />
                             </Grid>
                             <Grid justifyContent="left" item xs zeroMinWidth>
                                 <h5 style={{ margin: 0, textAlign: "left" }}> {re.full_name} <Rating name="disabled" value={re.score} disabled style={{ marginLeft: '40px' }} /></h5>
@@ -56,7 +45,7 @@ function Reviews({ reviews }) {
             <Paper style={{ padding: reviews.length <= 1 ? "40px 20px" : "40px 20px", marginTop: reviews.length <= 1 ? 100 : 100, opacity: '0' }}>
                 <Grid container wrap="nowrap" spacing={2}>
                     <Grid item>
-                        <Avatar alt="Remy Sharp" src={imgLink} />
+                        <Avatar alt="Remy Sharp" />
                     </Grid>
                     <Grid justifyContent="left" item xs zeroMinWidth>
                         <h4 style={{ margin: 0, textAlign: "left" }}>Michel Michel</h4>

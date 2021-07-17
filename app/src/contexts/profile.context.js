@@ -13,12 +13,12 @@ export const ProfileProvider = ({ children }) => {
         return response;
     }
     async function createWishList(entity) {
-        const response = await api.post('/watch-lists', entity);
+        const response = await api.post('/profiles/watch-lists', entity);
         return response;
     }
     async function deleteWishList(productId) {
         let params = { product_id: productId }
-        const response = await api.post('/watch-lists', { params });
+        const response = await api.delete('/profiles/watch-lists', { params });
         return response;
     }
     return (
