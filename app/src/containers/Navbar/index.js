@@ -1,4 +1,5 @@
 import { useAuth } from '../../contexts/auth.context';
+import { useCategory } from '../../contexts/categories.context';
 import React, { useState, useEffect } from 'react'
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -16,10 +17,14 @@ import Catego from './category';
 const Navbar = () => {
 
   const { authenticated, user, signOut } = useAuth();
-
+  let [catego, setCatego] = useState([]);
   let [userInfo, setUserInfo] = useState({});
+  let contextCate = useCategory();
   useEffect(() => {
     let mounted = true;
+    if(contextCate.categories){
+      setCatego(contextCate.categories)
+    }
     if (mounted && user) {
       setUserInfo(user.user);
       mounted = false;
@@ -62,7 +67,7 @@ const Navbar = () => {
         <SearchBar style={{ padding: '10px', marginLeft: '60px' }} />
 
         <div>
-          <Catego />
+          <Catego  catego = {catego}/>
           <button className="leaderboard">
             <img alt="" role="button" src={Leaderboard} />
           </button>

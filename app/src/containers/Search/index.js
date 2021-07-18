@@ -8,9 +8,8 @@ import Checkbox from './checkbox';
 const Search = () => {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const params = Object.fromEntries(urlSearchParams.entries());
-  //console.log(params);
   const [query, setQuery] = useState(params);
-  const [checked, setChecked] = useState(0);
+  const [checked, setChecked] = useState(params.category_id ? params.category_id : 0);
   const [category, setCategory] = useState([]);
   let contextCate = useCategory();
   let context = useProduct();
