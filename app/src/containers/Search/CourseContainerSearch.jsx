@@ -11,7 +11,6 @@ const CourseContainer = ({
     query,
     checked
 }) => {
-   
     const [queryProp, setQueryProp] = useState({ ...query });
     const [totalPage, setTotalPage] = useState(0);
     const [checkedt, setCheckedt] = useState(0);
@@ -31,13 +30,11 @@ const CourseContainer = ({
 
     var updateProducts = (query) => {
         if (query.category_id) setCheckedt(query.category_id);
-        console.log('okkokok',query);
         context.getSearch(query)
             .then(items => {
                 setProducts(items.data.records);
                 setTotalPage(items.data.totalPage);
                 setPage(items.data.page);
-                console.log('k',items.data);
                 return;
             })
     }
