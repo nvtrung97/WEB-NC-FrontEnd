@@ -22,7 +22,7 @@ const Navbar = () => {
   let contextCate = useCategory();
   useEffect(() => {
     let mounted = true;
-    if(contextCate.categories){
+    if (contextCate.categories) {
       setCatego(contextCate.categories)
     }
     if (mounted && user) {
@@ -64,13 +64,15 @@ const Navbar = () => {
         <img src={CampK12Logo} alt="Camp K12 Logo" />
       </a>
       <div className={isShowMobileNav ? 'nav-items-mobile' : 'nav-items'}>
-        <SearchBar style={{ padding: '10px', marginLeft: '60px' }} />
 
+           <SearchBar style={{ padding: '10px', marginLeft:'0px' }} />
+           <Catego catego={catego} />    
         <div>
-          <Catego  catego = {catego}/>
+       
           <button className="leaderboard">
             <img alt="" role="button" src={Leaderboard} />
           </button>
+          
           <button>
             Free Trial
           </button>
@@ -97,6 +99,7 @@ const Navbar = () => {
       <button className="mobile-nav-button" onClick={() => setIsShowMobileNav(!isShowMobileNav)}>
         {isShowMobileNav ? '🞩' : '☰'}
       </button>
+      
     </nav>
   )
 

@@ -39,7 +39,7 @@ export default function Catego({ catego }) {
   };
 
   return (
-    <div style={{ width: 300 }}>
+    <div >
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-controlled-open-select-label">Categories</InputLabel>
         <Select
