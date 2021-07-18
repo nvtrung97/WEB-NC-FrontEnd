@@ -42,7 +42,7 @@ function App() {
                   
                 </Switch>
                 <hr className="seperator" style={{ opacity: '0.5' }} />
-                <Footer className='footer_a' />
+                
               </BrowserRouter>
             </ProductProvider>
           </ProfileProvider>

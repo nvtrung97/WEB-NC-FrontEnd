@@ -21,7 +21,14 @@ export const ProductProvider = ({ children }) => {
         return response;
     }
     async function getSearch(query) {
-        const response = await api.get('/products/search', { params: query });
+        let response;
+        if (!query.keyword && query.category_id) {
+            let params = { ...query }  
+            console.log(params);
+            response = await api.get('/products', { params: params });
+            return response;
+        }
+        response = await api.get('/products/search', { params: query });
         return response;
     }
     async function getDetailProductById(id) {

@@ -8,7 +8,7 @@ const Footer = () => {
     ];
 
     return (
-        <div className="" style = {{width: '100%'}}>
+        <div>
         <SimpleReactFooter
             description={description}
             columns={columns}
