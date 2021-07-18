@@ -31,6 +31,10 @@ export const AuthProvider = ({ children }) => {
     const response = await api.post('/auth/signup', entity);
     return response;
   }
+  async function getUser(id) {
+    const response = await api.get(`/users/${id}`);
+    return response;
+  }
   async function otp(token_otp, entity) {
     api.defaults.headers.Authorization = `Bearer ${token_otp}`;
     const response = await api.post('/auth/otp', entity);
@@ -45,6 +49,7 @@ export const AuthProvider = ({ children }) => {
         signUp,
         otp,
         signOut,
+        getUser
       }}
     >
       {children}

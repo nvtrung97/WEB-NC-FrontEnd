@@ -10,13 +10,15 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useParams } from "react-router";
+import { FixedSizeList } from 'react-window';
 import Rating from '@material-ui/lab/Rating';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import CourseCard from 'components/CourseCard';
 import { BoxLoading } from 'react-loadingg';
 import { makeStyles } from '@material-ui/core/styles';
-import reviewImage from '../../static/review.svg';
-import Carousels from "react-elastic-carousel";
-import moment from 'moment';
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -25,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
+    tmp: {
+        width: '100%',
+        maxWidth: 560,
+        backgroundColor: theme.palette.background.paper,
+        position: 'relative',
+        overflow: 'auto',
+        maxHeight: 300,
+    }
 }));
 let imagesThum = [
     "http://tiasang.com.vn/Portals/0/Images/Dao-tao-KHDL-anh-1.jpg",
@@ -56,33 +66,44 @@ const Videos = () => {
             })
         setTimeout(function () {
             contextProduct.getVideosByProductId(id).then((res) => {
-                console.log(res.data);
+
+
+                for (let item of res.data) {
+                    item.url = item.url.replace("https://drive.google.com/file/d/", "https://drive.google.com/uc?id=");
+                }
+                console.log();
                 setVideos(res.data);
             })
         }, 0);
         return () => mounted = false;
     }, []);
     let myRef = React.createRef();
+    const handlChangeVideos = (e) => {
 
+        console.log(e.target.innerHTML);
+        videos.map((vitemp, index) => {
+            if (vitemp.name == e.target.innerHTML) {
+                setVideoSelected(index);
+                console.log(vitemp);
+            }
+        })
+    }
+ 
     return (
         <div className="app123">
             {
                 products ? (
                     <div className="details123" >
                         <div className="big-img123">
-                            <video width={600} height={400} poster="https://duhocvietglobal.com/wp-content/uploads/2018/12/dat-nuoc-va-con-nguoi-anh-quoc.jpg" controls>
-                                <source src={'https://drive.google.com/uc?id=14cCa240CK01-P87QjUrOpf5LiUoHrW7A#t=10,20'} type="video/mp4" />
 
-
-                            </video>
-                        </div>
-                        <div className="box">
-                            <div className="row">
-                                <h2>{products.name}</h2>
-                                <span style={{ color: '#bb495e' }}>Free</span>
-                            </div>
-                            <Colors colors={["red", "black", "crimson", "teal"]} />
-                            <p><b>Author: </b> {products.full_name}</p>
+                            {
+                                videos.map((vi, index) => (
+                                    (index == videoSelected) ?
+                                        <video width={600} height={400} poster={imageThunal} controls >
+                                            <source src={vi.url} type="video/mp4" /> : ''
+                                        </video> : ''
+                ))
+                            }
                             <Accordion style={{
                                 background: 'none',
                                 marginTop: '20px',
@@ -112,6 +133,37 @@ const Videos = () => {
                                     </Typography>
                                 </AccordionDetails>
                             </Accordion>
+                        </div>
+                        <div className="box">
+                            <div className="row">
+                                {videos.length > 0 && videos[videoSelected] ? <h3>{videos[videoSelected].name}</h3> : <h2>Not found videos</h2>}
+
+                            </div>
+                            <Colors colors={["red", "black", "crimson", "teal"]} />
+                            <p><b>Author: </b> {products.full_name}</p>
+                            <p><b>Course: </b> {products.name}</p>
+
+
+                            <div style={{ marginBottom: '20px' }}><b>Course videos:</b></div>
+                            <List className={classes.tmp} subheader={<li />} style={{ background: '#e8e8e840', borderRadius: '7px', padding: '10px' }}>
+
+                                {videos.map((video) => (
+                                    <li key={`section-${video._id}`} className={classes.listSection} style={{ cursor: 'pointer' }} >
+                                        <ul className={classes.ul} style={{ marginBottom: '10px' }}>
+                                            <ListItemText primary={`${video.name}`} onClick={handlChangeVideos} data-item={video} />
+                                            <hr className="seperator" style={{ opacity: '0.5', maxWidth: '350px', marginLeft: '50px' }} />
+                                        </ul>
+                                    </li>
+                                ))}
+                            </List>
+
+
+
+
+
+
+
+
                         </div>
 
                     </div>

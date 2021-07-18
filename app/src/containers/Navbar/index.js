@@ -16,6 +16,7 @@ import Catego from './category';
 const Navbar = () => {
 
   const { authenticated, user, signOut } = useAuth();
+
   let [userInfo, setUserInfo] = useState({});
   useEffect(() => {
     let mounted = true;
@@ -41,6 +42,10 @@ const Navbar = () => {
   function handleClickLogin() {
     history.push("/signin");
   }
+  const handleLinktoProfile = () => {
+    history.push("/profile");
+
+  }
   return (
     <nav className="container">
       <a href="/">
@@ -59,7 +64,7 @@ const Navbar = () => {
           </button>
           {authenticated === true && userInfo ?
             <div>
-              <Avatar className='size-avatar' alt="Remy Sharp" src={userInfo.avatar_url} onClick={handleClick} style ={{marginTop:'10px', backgroundColor:'white'}} />
+              <Avatar className='size-avatar' alt="Remy Sharp" src={userInfo.avatar_url} onClick={handleClick} style={{ marginTop: '10px', backgroundColor: 'white' }} />
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -67,8 +72,8 @@ const Navbar = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleLinktoProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>Your course</MenuItem>
                 <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
               </Menu>
             </div>
@@ -82,7 +87,7 @@ const Navbar = () => {
       </button>
     </nav>
   )
-  
+
 }
 
 export default Navbar;

@@ -34,7 +34,7 @@ const CourseContainer = ({
     <div className="course-container">
       <div className="buttons">
         {categoriesRe.map(
-          (type) => (
+          (type, index) => (
             <button
               className={type._id === cate._id && 'active'}
               onClick={() => {
@@ -68,7 +68,7 @@ const CourseContainer = ({
                 lecturer={course.author_name}
                 reviews={course.number_reviews}
                 score={course.score}
-                productId = {course._id}
+                productId={course._id}
               />
             )
           )
