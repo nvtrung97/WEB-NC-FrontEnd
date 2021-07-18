@@ -19,10 +19,6 @@ import { white } from 'material-ui/styles/colors';
 const CourseCard = ({
   title,
   happyStudents,
-  hours,
-  sessions,
-  isWeekend,
-  isWeekday,
   lecturer,
   productId,
   imageLink,

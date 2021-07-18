@@ -10,7 +10,9 @@ export const AuthProvider = ({ children }) => {
     const storedDataUser = localStorage.getItem(global.config.LOCALSTORAGE_NAME);
     if (storedDataUser) {
       setUser(JSON.parse(storedDataUser));
+      
       api.defaults.headers.Authorization = user.accessToken;
+      console.log(storedDataUser);
     }
   }, [user.accessToken]);
   function signOut() {

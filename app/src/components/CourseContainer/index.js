@@ -10,12 +10,15 @@ const CourseContainer = ({
   const [products, setProducts] = useState([]);
   let context = useProduct();
   useEffect(() => {
+
     let entity = {
       category_id: cate._id
     }
     let mounted = true;
-    if (mounted)
+    if (mounted) {
       updateProducts(entity);
+    }
+
     return () => mounted = false;
   }, [])
   let updateProducts = (query) => {
@@ -35,16 +38,20 @@ const CourseContainer = ({
       <div className="buttons">
         {categoriesRe.map(
           (type, index) => (
-            <button
-              className={type._id === cate._id && 'active'}
-              onClick={() => {
-                setCate(type);
-                updateProducts({ category_id: type._id });
-              }}
-            >
-              {`${type.name}`}
-            </button>
-          )
+             (index>= 2) ? ''
+              :
+              <button
+                className={type._id === cate._id && 'active'}
+                onClick={() => {
+                  setCate(type);
+                  updateProducts({ category_id: type._id });
+                }}
+              >
+                {`${type.name}`}
+              </button>
+            
+
+        )
         )
         }
       </div>

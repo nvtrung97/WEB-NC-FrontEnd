@@ -43,7 +43,14 @@ const Navbar = () => {
     history.push("/signin");
   }
   const handleLinktoProfile = () => {
+    handleClose();
     history.push("/profile");
+
+
+  }
+  const handleLinkToMycourses = () => {
+    handleClose();
+    history.push("/mycourses");
 
   }
   return (
@@ -73,7 +80,7 @@ const Navbar = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleLinktoProfile}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Your course</MenuItem>
+                <MenuItem onClick={handleLinkToMycourses}>Your course</MenuItem>
                 <MenuItem onClick={handleCloseLogout}>Logout</MenuItem>
               </Menu>
             </div>

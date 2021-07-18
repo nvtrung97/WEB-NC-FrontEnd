@@ -6,7 +6,8 @@ import Container from '@material-ui/core/Container';
 import MainFeaturedPost from './MainFeaturedPost';
 import FeaturedPost from './FeaturedPost';
 import { useAuth } from '../../contexts/auth.context';
-import moment  from 'moment';
+import moment from 'moment';
+import UpdateProfile from './UpdateProfile';
 const useStyles = makeStyles((theme) => ({
     mainGrid: {
         marginTop: theme.spacing(3),
@@ -37,18 +38,19 @@ let featuredPosts = [
 export default function Profile() {
     let context = useAuth();
     let [user, setUser] = useState({});
+    let [selectedView, setSelectedView] = useState(0);
     useEffect(() => {
         setTimeout(function () {
             if (context.user.user) {
-              
+
                 context.getUser(context.user.user.user_id).then((re) => {
                     setUser(re.data);
-                    mainFeaturedPost.title=re.data.full_name;
-                    mainFeaturedPost.description=re.data.email;
-                    featuredPosts[0].attended =moment(re.data.create_at).format("hh:mm DD/MM/YYYY");
-                    featuredPosts[0].address =re.data.address?re.data.address: featuredPosts[0].address;
-                    featuredPosts[0].phone =re.data.phone?re.data.phone: featuredPosts[0].phone;
-                    featuredPosts[0].image = re.data.avatar_url?re.data.avatar_url: featuredPosts[0].image;
+                    mainFeaturedPost.title = re.data.full_name;
+                    mainFeaturedPost.description = re.data.email;
+                    featuredPosts[0].attended = moment(re.data.create_at).format("hh:mm DD/MM/YYYY");
+                    featuredPosts[0].address = re.data.address ? re.data.address : featuredPosts[0].address;
+                    featuredPosts[0].phone = re.data.phone ? re.data.phone : featuredPosts[0].phone;
+                    featuredPosts[0].image = re.data.avatar_url ? re.data.avatar_url : featuredPosts[0].image;
                 })
             }
 
@@ -58,20 +60,26 @@ export default function Profile() {
 
     return (
         <React.Fragment>
-            <CssBaseline />
-            <Container maxWidth="lg">
-                <main style={{ marginTop: '50px', marginBottom: '70px' }}>
-                    <MainFeaturedPost post={mainFeaturedPost} />
-                    <Grid container spacing={4}>
-                        {featuredPosts.map((post) => (
-                            <FeaturedPost key={post.title} post={post} />
-                        ))}
-                    </Grid>
-                    <Grid container spacing={5} className={classes.mainGrid}>
 
-                    </Grid>
-                </main>
-            </Container>
+
+            {selectedView ? <UpdateProfile handleChangeView = {setSelectedView} user = {user} /> :
+                <div>
+                    <CssBaseline />
+                    <Container maxWidth="lg">
+                        <main style={{ marginTop: '50px', marginBottom: '70px' }}>
+                            <MainFeaturedPost post={mainFeaturedPost} handleChangeView = {setSelectedView} />
+                            <Grid container spacing={4}>
+                                {featuredPosts.map((post) => (
+                                    <FeaturedPost key={post.title} post={post} />
+                                ))}
+                            </Grid>
+                            <Grid container spacing={5} className={classes.mainGrid}>
+
+                            </Grid>
+                        </main>
+                    </Container>
+                </div>
+            }
         </React.Fragment>
     );
 }

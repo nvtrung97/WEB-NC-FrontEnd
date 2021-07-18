@@ -21,8 +21,20 @@ export const ProfileProvider = ({ children }) => {
         const response = await api.delete('/profiles/watch-lists', { params });
         return response;
     }
+    async function updateProfile(entity) {
+        const response = await api.put('/profiles', entity);
+        return response;
+    }
+    async function changePassword(entity) {
+        const response = await api.put('/profiles/password', entity);
+        return response;
+    }
+    async function getWishList() {
+        const response = await api.get('/profiles/watch-lists');
+        return response;
+    }
     return (
-        <ProfileContext.Provider value={{ registerCourese, getProfile, createWishList, deleteWishList }}>
+        <ProfileContext.Provider value={{ updateProfile, changePassword, registerCourese, getProfile, createWishList, deleteWishList, getWishList }}>
             {children}
         </ProfileContext.Provider>
     );
