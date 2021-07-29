@@ -42,6 +42,7 @@ const Sidebar = props => {
                             active={index === activeItem}
                         />
                     </Link>
+                    
                 ))
             }
         </div>

@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState('');
 
   useEffect(() => {
-    const storedDataUser = localStorage.getItem(global.config.LOCALSTORAGE_NAME);
+    const storedDataUser = localStorage.getItem('webnc_user');
     if (storedDataUser) {
       setUser(JSON.parse(storedDataUser));
       api.defaults.headers.Authorization = user.accessToken;
@@ -15,20 +15,25 @@ export const AuthProvider = ({ children }) => {
   }, [user.accessToken]);
   function signOut() {
     setUser({});
-    localStorage.removeItem(global.config.LOCALSTORAGE_NAME);
+    localStorage.removeItem('webnc_user');
   }
   async function signIn(entity) {
-    const response = await api.post('/user/login', entity);
-    setUser(response.data);
-    api.defaults.headers.Authorization = response.data.accessToken;
+    const response = await api.post('/auth/signin', entity);
+    if(response.user.role<2) return null;
+    setUser(response);
+    api.defaults.headers.Authorization = response.accessToken;
     localStorage.setItem(
-      global.config.LOCALSTORAGE_NAME,
-      JSON.stringify(response.data)
+      'webnc_user',
+      JSON.stringify(response)
     );
     return response;
   }
   async function signUp(entity) {
     const response = await api.post('/auth/signup', entity);
+    return response;
+  }
+  async function getUser(id) {
+    const response = await api.get(`/users/${id}`);
     return response;
   }
   async function otp(token_otp, entity) {
@@ -45,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         signUp,
         otp,
         signOut,
+        getUser
       }}
     >
       {children}
