@@ -8,17 +8,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { GoogleLogin } from 'react-google-login';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import { BoxLoading } from 'react-loadingg';
-import * as yup from 'yup';
-import { useAuth } from '../../contexts/auth.context';
+import { useAuth } from '../../contexts/auth';
 import "./sign-in.styles.css"
 import _ from 'lodash';
 import { useHistory } from "react-router-dom";
@@ -69,26 +65,6 @@ function SignIn(props) {
   const context = useAuth();
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .required('Please enter your email')
-      .email('Please enter a valid email'),
-    password: yup.string().required('Please enter your password'),
-  });
-
-
-
-
-
-  const form = useForm({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-    resolver: yupResolver(schema),
-  });
-
   const handleSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();
@@ -106,31 +82,23 @@ function SignIn(props) {
     context
       .signIn(entity)
       .catch((error) => {
-
-        console.log(error.response);
-        if (_.has(error, 'response')) {
-          if (error.response.data.message.includes('Password')) {
-            alert("Password incorrect!");
-          } else
-            alert("Email does not exist!");
+        console.log(error.stack);
+      })
+      .then((res) => {
+        if (!res) {
+          alert("Bạn không có quyền truy cập vào Admin");
           setLoading(false);
           return;
         }
-
-      })
-      .then((res) => {
-        if (_.has(res, 'status'))
-          if (res.status === 201) {
-            history.push('/')
-            console.log('ok');
-          }
+        history.push('/');
+        setLoading(true);
       });
 
   }
   const googleResponse = (response) => {
     setLoading(true);
     let entity = {
-      login_type: 'auth',
+      login_type: 'google',
       email: '',
       password: '',
       token_id: response.tokenId,
@@ -148,7 +116,7 @@ function SignIn(props) {
 
         if (_.has(res, 'status'))
           if (res.status === 201) {
-            history.push('/');
+            history.push('/admin');
           }
       });
   }
@@ -166,17 +134,13 @@ function SignIn(props) {
   }
 
 
-
-  const { isSubmitting } = form.formState;
-
   return (
     <div>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        {loading === true ? <BoxLoading className= 'indexcss'/> : ''}
+        {loading === true ? <BoxLoading className='indexcss' /> : ''}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
@@ -246,11 +210,8 @@ function SignIn(props) {
           >
           </GoogleLogin>
         </div>
-
         <Box mt={8}>
-
           <Copyright />
-
         </Box>
       </Container>
     </div>

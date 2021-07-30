@@ -5,7 +5,7 @@ import './layout.css'
 import Sidebar from '../sidebar/Sidebar'
 import TopNav from '../topnav/TopNav'
 import Routes from '../Routes'
-
+import { AuthProvider } from '../../contexts/auth';
 import { BrowserRouter, Route } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -36,7 +36,9 @@ const Layout = () => {
                     <div className="layout__content">
                         <TopNav/>
                         <div className="layout__content-main">
+                        <AuthProvider>
                             <Routes/>
+                            </AuthProvider>
                         </div>
                     </div>
                 </div>

@@ -13,13 +13,17 @@ import { CategoryProvider } from '../contexts/category';
 import { AdminProvider } from '../contexts/admin';
 import { useAuth } from '../contexts/auth';
 import { useHistory } from "react-router-dom";
+import { useLocation } from 'react-router-dom'
 const Routes = () => {
     let history = useHistory();
     let context = useAuth();
     let [authenticated,setAuthenticated]= useState(context.authenticated);
+    const location = useLocation();
     useEffect(() => {
+       if(location.pathname != '/login'){
         setAuthenticated(context.authenticated);
         if(authenticated===false) history.push('/login');
+       }
     })
     return (
         <CategoryProvider>

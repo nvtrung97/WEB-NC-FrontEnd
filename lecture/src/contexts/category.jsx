@@ -4,15 +4,11 @@ import api from '../services/api';
 export const CategoryContext = createContext({});
 
 export const CategoryProvider = ({ children }) => {
-  const [categoryList, setCategoryList] = useState([]);
 
-  useEffect(() => {
-    async function fetchCategory() {
-      const response = await api.get('/categories');
-      setCategoryList(response);
-    }
-    fetchCategory();
-  }, []);
+  async function getCategory() {
+    const response = await api.get('/categories');
+    return response;
+  }
   async function createCategory(entity) {
     const response = await api.post('admin/categories', entity);
     return response;
@@ -26,7 +22,7 @@ export const CategoryProvider = ({ children }) => {
     return response;
   }
   return (
-    <CategoryContext.Provider value={{ categories: categoryList, createCategory, updateCategory, deleteCategory }}>
+    <CategoryContext.Provider value={{ getCategory, createCategory, updateCategory, deleteCategory }}>
       {children}
     </CategoryContext.Provider>
   );

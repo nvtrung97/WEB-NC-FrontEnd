@@ -5,13 +5,18 @@
         "icon": "bx bx-category-alt"
     },
     {
-        "display_name": "Courses",
-        "route": "/courses",
+        "display_name": "Post a course",
+        "route": "/post-courses",
         "icon": "bx bx-bar-chart-alt"
     },
     {
-        "display_name": "profile",
-        "route": "/profile",
+        "display_name": "Add & update Courses info",
+        "route": "/update-courses",
+        "icon": "bx bx-package"
+    },
+    {
+        "display_name": "Profile",
+        "route": "/myself",
         "icon": "bx bx-user-pin"
     }
 ]
