@@ -259,17 +259,19 @@ const DetailPage = () => {
                 {'    ' + products.number_reviews + ' reviews '}
                 {'+    ' + products.number_students + ' students'}
               </p>
-              <p><b>Detail: </b> {products.short_description}</p>
-              <p>
-                <div dangerouslySetInnerHTML={{ __html: products.full_description }}>
-                </div></p>
-              <p style={{ opacity: 0.4, fontStyle: 'oblique', fontSize: '13px' }}><b>Update at: </b>{moment(products.update_at).format("hh:mm DD/MM/YYYY")}</p>
               <DetailsThumb images={imageThunal} tab={handleTab} myRef={myRef} />
               {
                 isLearn ? <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }} onClick={handleJoinLearnContinue}>Learn continue</button> :
                   <button className="cart" style={{ backgroundColor: 'rgb(197 185 38)' }} onClick={handleJoin}>Join</button>
 
               }
+              <p><b>Detail: </b> {products.short_description}</p>
+              <p>
+                <div dangerouslySetInnerHTML={{ __html: products.full_description }}>
+                </div></p>
+              <p style={{ opacity: 0.4, fontStyle: 'oblique', fontSize: '13px' }}><b>Update at: </b>{moment(products.update_at).format("hh:mm DD/MM/YYYY")}</p>
+            
+ 
 
 
               <Accordion style={{

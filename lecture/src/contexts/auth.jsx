@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
   }
   async function signIn(entity) {
     const response = await api.post('/auth/signin', entity);
+    console.log(response);
     if (response.user.role != 1) return null;
     setUser(response);
     api.defaults.headers.Authorization = response.accessToken;

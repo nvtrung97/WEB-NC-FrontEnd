@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import './topnav.css'
 
@@ -11,10 +11,10 @@ import ThemeMenu from '../thememenu/ThemeMenu'
 import notifications from '../../assets/JsonData/notification.json'
 
 import user_menu from '../../assets/JsonData/user_menus.json'
-
+import { useAuth } from '../../contexts/auth'
 const curr_user = {
-    display_name: 'admin@admin.com',
-    image: 'https://thumbs.dreamstime.com/b/print-173513015.jpg'
+    display_name: '',
+    image: 'https://th.bing.com/th/id/OIP.DSLxUugtf_1PxcHlWsQ7bgAAAA?pid=ImgDet&w=400&h=400&rs=1'
 }
 
 const renderNotificationItem = (item, index) => (
@@ -35,7 +35,7 @@ const renderUserToggle = (user) => (
     </div>
 )
 
-const renderUserMenu =(item, index) => (
+const renderUserMenu = (item, index) => (
     <Link to={item.route} key={index}>
         <div className="notification-item">
             <i className={item.icon}></i>
@@ -45,6 +45,12 @@ const renderUserMenu =(item, index) => (
 )
 
 const Topnav = () => {
+    let context = useAuth();
+    let [login, setLogin] = useState(false);
+    useEffect(()=>{
+        console.log(context.authenticated);
+        setLogin(context.authenticated);
+    })
     return (
         <div className='topnav'>
             <div className="topnav__search">
@@ -53,12 +59,12 @@ const Topnav = () => {
             </div>
             <div className="topnav__right">
                 <div className="topnav__right-item">
-                    {/* dropdown here */}
-                    {/* <Dropdown
-                        customToggle={() => renderUserToggle(curr_user)}
-                        contentData={user_menu}
-                        renderItems={(item, index) => renderUserMenu(item, index)}
-                    /> */}
+                    {login ?
+                        <Dropdown
+                            customToggle={() => renderUserToggle(curr_user)}
+                            contentData={user_menu}
+                            renderItems={(item, index) => renderUserMenu(item, index)}
+                        /> : ''}
                 </div>
                 <div className="topnav__right-item">
                     <Dropdown
@@ -71,7 +77,7 @@ const Topnav = () => {
                     {/* dropdown here */}
                 </div>
                 <div className="topnav__right-item">
-                    <ThemeMenu/>
+                    <ThemeMenu />
                 </div>
             </div>
         </div>

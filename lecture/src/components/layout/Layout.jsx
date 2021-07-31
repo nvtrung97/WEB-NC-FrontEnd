@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 
 import './layout.css'
 
@@ -11,7 +11,9 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 
 import ThemeAction from '../../redux/actions/ThemeAction'
-
+import ReactNotifications from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 const Layout = () => {
 
     const themeReducer = useSelector(state => state.ThemeReducer)
@@ -30,19 +32,23 @@ const Layout = () => {
 
     return (
         <BrowserRouter>
+           <ReactNotifications />
             <Route render={(props) => (
                 <div className={`layout ${themeReducer.mode} ${themeReducer.color}`}>
-                    <Sidebar {...props}/>
+                    <Sidebar {...props} />
                     <div className="layout__content">
-                        <TopNav/>
-                        <div className="layout__content-main">
                         <AuthProvider>
-                            <Routes/>
-                            </AuthProvider>
-                        </div>
+                         
+                            <TopNav />
+                            <div className="layout__content-main">
+
+                                <Routes />
+
+                            </div>
+                        </AuthProvider>
                     </div>
                 </div>
-            )}/>
+            )} />
         </BrowserRouter>
     )
 }

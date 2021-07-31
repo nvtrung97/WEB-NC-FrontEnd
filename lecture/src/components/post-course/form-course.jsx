@@ -17,6 +17,9 @@ import { useState } from 'react';
 import { useCategory } from '../../contexts/category';
 import { useCourse } from '../../contexts/courses';
 import { map } from 'lodash';
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 const useStyles = makeStyles((theme) => ({
     button: {
         display: 'block',
@@ -56,15 +59,17 @@ export default function AddressForm() {
             name: title,
             url_image: url_image,
             short_description: short_description,
-            full_description: fullDescription
+            full_description: fullDescription.replaceAll('rgb(255,255,255)', '')
         }
         console.log(entity);
         if (!title || !url_image || !short_description) {
             alert('Bạn phải nhập đầy đủ thông tin mới được đăng');
             return;
         }
-        conCourse.createCourse(entity).then((res)=>{
-            console.log(res);
+        conCourse.createCourse(entity).then((res) => {
+            addNoti('Bạn đã thêm khóa học thành công','success','Thêm khóa học');
+        }).catch((err) => {
+            addNoti('Bạn thêm khóa học thất bại','danger','Thêm khóa học');
         })
 
     }
@@ -75,6 +80,21 @@ export default function AddressForm() {
     }
     const onContentStateChange = (contentState) => {
         setFullDescription(draftToHtml(contentState));
+    }
+    const addNoti = (mes, type, title) => {
+        store.addNotification({
+            title: title,
+            message: mes,
+            type: type,
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 2000,
+                onScreen: true
+            }
+        });
     }
     return (
         <React.Fragment>
