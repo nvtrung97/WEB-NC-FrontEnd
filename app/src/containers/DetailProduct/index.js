@@ -96,7 +96,7 @@ const DetailPage = () => {
           }
         })
       contextProduct.getAllReviews(id).then((res) => {
-    
+
         setReviews(res.data);
       }).catch((err) => {
         console.log(err);
@@ -253,14 +253,16 @@ const DetailPage = () => {
               <Colors colors={["red", "black", "crimson", "teal"]} />
               <p><b>Author: </b> {products.full_name}</p>
               <p><Rating name="disabled" value={Number(products.score)} readOnly style={{ marginRight: '20px' }} />
-      
+
               </p>
               <p>
                 {'    ' + products.number_reviews + ' reviews '}
                 {'+    ' + products.number_students + ' students'}
               </p>
               <p><b>Detail: </b> {products.short_description}</p>
-              <p>{products.full_description}</p>
+              <p>
+                <div dangerouslySetInnerHTML={{ __html: products.full_description }}>
+                </div></p>
               <p style={{ opacity: 0.4, fontStyle: 'oblique', fontSize: '13px' }}><b>Update at: </b>{moment(products.update_at).format("hh:mm DD/MM/YYYY")}</p>
               <DetailsThumb images={imageThunal} tab={handleTab} myRef={myRef} />
               {
