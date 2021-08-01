@@ -18,9 +18,11 @@ import { useCategory } from '../../contexts/category';
 import { useCourse } from '../../contexts/courses';
 import { map } from 'lodash';
 import { store } from 'react-notifications-component';
-import { BoxLoading } from 'react-loadingg';
+import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
+import { BoxLoading } from 'react-loadingg';
+import { useParams } from 'react-router';
 const useStyles = makeStyles((theme) => ({
     button: {
         display: 'block',
@@ -42,19 +44,33 @@ export default function AddressForm() {
     const [url_image, setUrl_image] = useState('');
     const [short_description, setShortDescription] = useState('');
     const [changeEditer, setChangeEditer] = useState('');
-    let conCourse = useCourse();
+    const [detaiPro, setDetaiPro] = useState('');
     const [Loading, setLoading] = useState(true);
-    
+    let conCourse = useCourse();
+    const { id } = useParams();
     useEffect(() => {
         setTimeout(() => {
             conCategory.getCategory().then((res) => {
-                setLoading(false);
+                console.log(res);
                 setCate(res);
+            })
+            conCourse.getDetailOfProduct(id).then((res) => {
+                setLoading(false);
+                console.log(res);
+                setTitle(res.name);
+                setChoose(res.category_id);
+                setUrl_image(res.url_image);
+                setShortDescription(res.short_description);
+                setChangeEditer(EditorState.createWithContent(
+                    ContentState.createFromBlockArray(
+                        convertFromHTML(res.full_description)
+                    )));
             })
         }, 0)
     }, [])
     const handleChange = (event) => {
         setChoose(event.target.value);
+
     };
     const handleCreateCourse = () => {
         let entity = {
@@ -69,12 +85,10 @@ export default function AddressForm() {
             alert('Bạn phải nhập đầy đủ thông tin mới được đăng');
             return;
         }
-        conCourse.createCourse(entity).then((res) => {
-            setLoading(false);
-            addNoti('Bạn đã thêm khóa học thành công', 'success', 'Thêm khóa học');
+        conCourse.UpdateCourse(entity, id).then((res) => {
+            addNoti('Bạn đã cập khóa học thành công', 'success', 'Update');
         }).catch((err) => {
-            addNoti('Bạn thêm khóa học thất bại', 'danger', 'Thêm khóa học');
-            setLoading(false);
+            addNoti('Bạn cập khóa học thất bại', 'danger', 'Update');
         })
 
     }
@@ -104,7 +118,7 @@ export default function AddressForm() {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                {Loading ? <BoxLoading className='indexcss' /> : ''}
+            {Loading ? <BoxLoading className='indexcss' /> : ''}
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
@@ -116,6 +130,7 @@ export default function AddressForm() {
                         fullWidth
                         autoComplete="shipping address-line1"
                         onChange={evt => updateInputValue(evt)}
+                        value={title}
                     />
                 </Grid>
                 <FormControl className={classes.formControl} style={{ minWidth: '200px' }}>
@@ -132,7 +147,6 @@ export default function AddressForm() {
                         {cate.map((item) => (
                             <MenuItem value={item._id}>{item.name}</MenuItem>
                         ))}
-
                     </Select>
                 </FormControl>
                 <Grid item xs={12}>
@@ -143,6 +157,7 @@ export default function AddressForm() {
                         fullWidth
                         onChange={evt => updateInputValue(evt)}
                         autoComplete="shipping address-line2"
+                        value={url_image}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -150,6 +165,7 @@ export default function AddressForm() {
                         id="address2"
                         name="short_description"
                         label="Short description"
+                        value={short_description}
                         fullWidth
                         autoComplete="shipping address-line2"
                         onChange={evt => updateInputValue(evt)}
@@ -172,7 +188,7 @@ export default function AddressForm() {
                         control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
                         label="I have read the terms"
                     />
-                    <Button variant="contained" color="primary" style={{ opacity: 0.8 }} onClick={handleCreateCourse}>Post Course</Button>
+                    <Button variant="contained" color="primary" style={{ opacity: 0.8 }} onClick={handleCreateCourse}>Update Course</Button>
                 </Grid>
             </Grid>
         </React.Fragment>

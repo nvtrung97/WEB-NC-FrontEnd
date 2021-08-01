@@ -18,7 +18,6 @@ import { useCategory } from '../../contexts/category';
 import { useCourse } from '../../contexts/courses';
 import { map } from 'lodash';
 import { store } from 'react-notifications-component';
-import { BoxLoading } from 'react-loadingg';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 const useStyles = makeStyles((theme) => ({
@@ -43,12 +42,10 @@ export default function AddressForm() {
     const [short_description, setShortDescription] = useState('');
     const [changeEditer, setChangeEditer] = useState('');
     let conCourse = useCourse();
-    const [Loading, setLoading] = useState(true);
-    
     useEffect(() => {
         setTimeout(() => {
             conCategory.getCategory().then((res) => {
-                setLoading(false);
+                console.log(res);
                 setCate(res);
             })
         }, 0)
@@ -70,11 +67,9 @@ export default function AddressForm() {
             return;
         }
         conCourse.createCourse(entity).then((res) => {
-            setLoading(false);
-            addNoti('Bạn đã thêm khóa học thành công', 'success', 'Thêm khóa học');
+            addNoti('Bạn đã thêm khóa học thành công','success','Thêm khóa học');
         }).catch((err) => {
-            addNoti('Bạn thêm khóa học thất bại', 'danger', 'Thêm khóa học');
-            setLoading(false);
+            addNoti('Bạn thêm khóa học thất bại','danger','Thêm khóa học');
         })
 
     }
@@ -104,7 +99,7 @@ export default function AddressForm() {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                {Loading ? <BoxLoading className='indexcss' /> : ''}
+
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12}>

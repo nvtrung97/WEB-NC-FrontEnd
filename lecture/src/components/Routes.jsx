@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Dashboard from '../pages/Dashboard'
 import Courses from '../pages/Courses'
-import Categories from '../pages/Categories'
+import CoursesLecturer from '../pages/CoursesLecturer'
+import UpdateLecturer from '../pages/UpdateCourse'
+import VideoLecturer from '../pages/VideoLecturer'
 import Lectures from '../pages/Lectures'
 import Login from '../pages/Login'
 import Profile from '../pages/Profile'
@@ -33,7 +35,9 @@ const Routes = () => {
                         <Switch>
                             <Route path='/' exact component={Dashboard} />
                             <Route path='/post-courses' component={Courses} />
-                            <Route path='/update-courses' component={Categories} />
+                            <Route path='/update-courses/:id/videos' component={VideoLecturer} />
+                            <Route path='/update-courses/:id/update' component={UpdateLecturer} />
+                            <Route path='/update-courses' component={CoursesLecturer} />
                             <Route path='/myself' component={Profile} />
                             <Route path='/login' component={Login} />
                             <Route path='/logout' component={Logout} />

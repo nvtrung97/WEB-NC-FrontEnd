@@ -40,37 +40,41 @@ export default function Profile() {
     let [user, setUser] = useState({});
     let [selectedView, setSelectedView] = useState(0);
     useEffect(() => {
-        setTimeout(function () {
-            if (context.user.user) {
-
-                context.getUser(context.user.user.user_id).then((re) => {
-                    console.log('ok',re);
-                    setUser(re);
-                    mainFeaturedPost.title = re.full_name;
-                    mainFeaturedPost.description = re.email;
-                    featuredPosts[0].attended = moment(re.create_at).format("hh:mm DD/MM/YYYY");
-                    featuredPosts[0].address = re.address ? re.address : featuredPosts[0].address;
-                    featuredPosts[0].phone = re.phone ? re.phone : featuredPosts[0].phone;
-                    featuredPosts[0].image = re.avatar_url ? re.avatar_url : featuredPosts[0].image;
-                }).catch((er=>{
-                    console.log('oksdcsc');
-                }))
+        let mounted = true;
+        
+            setTimeout(function () {
+                if (mounted) {
+                if (context.user.user) {
+                    context.getUser(context.user.user.user_id).then((re) => {
+                        setUser(re);
+                        mainFeaturedPost.title = re.full_name;
+                        mainFeaturedPost.description = re.email;
+                        featuredPosts[0].attended = moment(re.create_at).format("hh:mm DD/MM/YYYY");
+                        featuredPosts[0].address = re.address ? re.address : featuredPosts[0].address;
+                        featuredPosts[0].phone = re.phone ? re.phone : featuredPosts[0].phone;
+                        featuredPosts[0].image = re.avatar_url ? re.avatar_url : featuredPosts[0].image;
+                        return;
+                    }).catch((er => {
+                        return;
+                    }))
+                }
             }
-
-        }, 0);
-    },[]);
+            }, 1000);
+        
+        return () => mounted = false
+    });
     const classes = useStyles();
 
     return (
         <React.Fragment>
 
 
-            {selectedView ? <UpdateProfile handleChangeView = {setSelectedView} user = {user} /> :
+            {selectedView ? <UpdateProfile handleChangeView={setSelectedView} user={user} /> :
                 <div>
                     <CssBaseline />
                     <Container maxWidth="lg">
                         <main style={{ marginTop: '50px', marginBottom: '70px' }}>
-                            <MainFeaturedPost post={mainFeaturedPost} handleChangeView = {setSelectedView} />
+                            <MainFeaturedPost post={mainFeaturedPost} handleChangeView={setSelectedView} />
                             <Grid container spacing={4}>
                                 {featuredPosts.map((post) => (
                                     <FeaturedPost key={post.title} post={post} />

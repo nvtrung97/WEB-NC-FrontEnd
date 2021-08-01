@@ -10,7 +10,7 @@
         "icon": "bx bx-bar-chart-alt"
     },
     {
-        "display_name": "Add & update Courses info",
+        "display_name": "Course management",
         "route": "/update-courses",
         "icon": "bx bx-package"
     },
