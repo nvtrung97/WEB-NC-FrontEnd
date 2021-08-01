@@ -1,0 +1,41 @@
+{
+  "files": {
+    "main.css": "/react-online-course/static/css/main.77d52777.chunk.css",
+    "main.js": "/react-online-course/static/js/main.4104a8e8.chunk.js",
+    "main.js.map": "/react-online-course/static/js/main.4104a8e8.chunk.js.map",
+    "runtime-main.js": "/react-online-course/static/js/runtime-main.89978ef1.js",
+    "runtime-main.js.map": "/react-online-course/static/js/runtime-main.89978ef1.js.map",
+    "static/css/2.bb4864b8.chunk.css": "/react-online-course/static/css/2.bb4864b8.chunk.css",
+    "static/js/2.f124a3bb.chunk.js": "/react-online-course/static/js/2.f124a3bb.chunk.js",
+    "static/js/2.f124a3bb.chunk.js.map": "/react-online-course/static/js/2.f124a3bb.chunk.js.map",
+    "index.html": "/react-online-course/index.html",
+    "precache-manifest.e67fb7e16f51581384e3690ffe3fdb2a.js": "/react-online-course/precache-manifest.e67fb7e16f51581384e3690ffe3fdb2a.js",
+    "service-worker.js": "/react-online-course/service-worker.js",
+    "static/css/2.bb4864b8.chunk.css.map": "/react-online-course/static/css/2.bb4864b8.chunk.css.map",
+    "static/css/main.77d52777.chunk.css.map": "/react-online-course/static/css/main.77d52777.chunk.css.map",
+    "static/js/2.f124a3bb.chunk.js.LICENSE.txt": "/react-online-course/static/js/2.f124a3bb.chunk.js.LICENSE.txt",
+    "static/media/camp-k-12-logo.svg": "/react-online-course/static/media/camp-k-12-logo.4ff6c7b7.svg",
+    "static/media/community.svg": "/react-online-course/static/media/community.15b2a5c8.svg",
+    "static/media/group-40.svg": "/react-online-course/static/media/group-40.9aa55bf5.svg",
+    "static/media/growth.svg": "/react-online-course/static/media/growth.af3da035.svg",
+    "static/media/App.scss": "/react-online-course/static/media/header-background.fd6f5eee.svg",
+    "static/media/home.svg": "/react-online-course/static/media/home.4cc25fa3.svg",
+    "static/media/leaderboard.svg": "/react-online-course/static/media/leaderboard.a51f3e4a.svg",
+    "static/media/medal.svg": "/react-online-course/static/media/medal.5d5c5d80.svg",
+    "static/media/menu.svg": "/react-online-course/static/media/menu.9a39f553.svg",
+    "static/media/offer.svg": "/react-online-course/static/media/offer.b9ea7a57.svg",
+    "static/media/review.svg": "/react-online-course/static/media/review.6272efe0.svg",
+    "static/media/rupees.svg": "/react-online-course/static/media/rupees.39884cb8.svg",
+    "static/media/tablet.svg": "/react-online-course/static/media/tablet.cd465efd.svg",
+    "static/media/timer.svg": "/react-online-course/static/media/timer.2ef608dc.svg",
+    "static/media/vision.svg": "/react-online-course/static/media/vision.130715e4.svg",
+    "static/media/writer.svg": "/react-online-course/static/media/writer.42962023.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.89978ef1.js",
+    "static/css/2.bb4864b8.chunk.css",
+    "static/js/2.f124a3bb.chunk.js",
+    "static/css/main.77d52777.chunk.css",
+    "static/js/main.4104a8e8.chunk.js"
+  ]
+}
