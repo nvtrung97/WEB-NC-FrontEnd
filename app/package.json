@@ -2,7 +2,6 @@
   "name": "camk-k12",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://thisshri.github.io/react-online-course/",
   "dependencies": {
     "3d-react-carousal": "^4.0.1",
     "@chakra-ui/icon": "^1.1.10",

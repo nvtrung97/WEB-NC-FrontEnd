@@ -22,7 +22,9 @@ import { useAuth } from '../../contexts/auth.context';
 import "./sign-in.styles.css"
 import _ from 'lodash';
 import { useHistory } from "react-router-dom";
-
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -76,11 +78,6 @@ function SignIn(props) {
       .email('Please enter a valid email'),
     password: yup.string().required('Please enter your password'),
   });
-
-
-
-
-
   const form = useForm({
     defaultValues: {
       email: '',
@@ -88,12 +85,11 @@ function SignIn(props) {
     },
     resolver: yupResolver(schema),
   });
-
   const handleSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();
     if (!validateEmail(email)) {
-      alert("Please input right email!");
+      addNoti('Please input right email!', 'danger', 'Notification');
       setLoading(false);
       return;
     }
@@ -106,23 +102,23 @@ function SignIn(props) {
     context
       .signIn(entity)
       .catch((error) => {
-
-        console.log(error.response);
         if (_.has(error, 'response')) {
           if (error.response.data.message.includes('Password')) {
-            alert("Password incorrect!");
+            addNoti('Password incorrect!', 'danger', 'Notification');
           } else
-            alert("Email does not exist!");
+            addNoti('Email does not exist!', 'danger', 'Notification');
           setLoading(false);
           return;
         }
-
       })
       .then((res) => {
         if (_.has(res, 'status'))
           if (res.status === 201) {
-            history.push('/')
-            console.log('ok');
+            addNoti('Login success', 'success', 'Notification');
+            setTimeout(function () {
+              history.push('/');
+              window.location.reload(false);
+            }, 2000);
           }
       });
 
@@ -130,7 +126,7 @@ function SignIn(props) {
   const googleResponse = (response) => {
     setLoading(true);
     let entity = {
-      login_type: 'auth',
+      login_type: 'google',
       email: '',
       password: '',
       token_id: response.tokenId,
@@ -141,14 +137,20 @@ function SignIn(props) {
         setLoading(false);
         console.log(error.response);
         if (_.has(error, 'response')) {
-          alert("SOMETHINGS WRONG!");
+          addNoti('Somethings wrong', 'danger', 'Notification');
+
         }
       })
       .then((res) => {
-
         if (_.has(res, 'status'))
           if (res.status === 201) {
-            history.push('/');
+            addNoti('Login success', 'success', 'Notification');
+            setTimeout(function () {
+              history.push('/');
+              window.location.reload(false);
+            }, 2000);
+
+
           }
       });
   }
@@ -164,7 +166,21 @@ function SignIn(props) {
     if (event.target.name == 'password') setPassword(event.target.value);
     if (event.target.name == 'email') setEmail(event.target.value);
   }
-
+  const addNoti = (mes, type, title) => {
+    store.addNotification({
+      title: title,
+      message: mes,
+      type: type,
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss: {
+        duration: 2000,
+        onScreen: true
+      }
+    });
+  }
 
 
   const { isSubmitting } = form.formState;
@@ -173,7 +189,7 @@ function SignIn(props) {
     <div>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        {loading === true ? <BoxLoading className= 'indexcss'/> : ''}
+        {loading === true ? <BoxLoading className='indexcss' /> : ''}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />

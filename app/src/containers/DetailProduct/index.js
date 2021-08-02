@@ -11,7 +11,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useParams } from "react-router";
-import ReactNotification from 'react-notifications-component'
 import Rating from '@material-ui/lab/Rating';
 import CourseCard from 'components/CourseCard';
 import { BoxLoading } from 'react-loadingg';
@@ -117,10 +116,10 @@ const DetailPage = () => {
   const handleJoin = () => {
     if (authenticated) {
       contextProfile.registerCourese({ product_id: id }).then((res) => {
-        addNoti("Add successful courses", "success")
+        addNoti("Join successful courses", "success", 'Join course')
         setTimeout(function () { history.push(`/detail/${id}/videos`) }, 3000);
       }).catch((err) => {
-        alert("Something wrong");
+        addNoti("Failed to join the course", "danger", 'Join course')
       })
     } else {
       history.push('/signin');
@@ -136,7 +135,6 @@ const DetailPage = () => {
       content: reviewValueSend.current.value
     }
     contextProduct.createReview(entity, id).then((res) => {
-      console.log(res);
       addNoti('Add review successfully', 'success', "Add");
       setTimeout(function () { window.location.reload(false); }, 2000);
       //Xử lí review
@@ -153,7 +151,6 @@ const DetailPage = () => {
       console.log(rerr);
       addNoti('Add review faild', 'danger', "Add")
     })
-    console.log(entity);
   }
   const handleYeuThich = () => {
     if (isLiked) {
@@ -191,7 +188,6 @@ const DetailPage = () => {
   }
   return (
     <div className="app123">
-      <ReactNotification style={{ marginRight: '100px' }} />
       {
         products ? (
           <div className="details123" >

@@ -22,10 +22,8 @@ const CourseContainer = ({
     return () => mounted = false;
   }, [])
   let updateProducts = (query) => {
-    console.log(query);
     context.getProductByQuery(query)
       .then(items => {
-        console.log(items);
         setProducts(items.data.records);
         return;
       })

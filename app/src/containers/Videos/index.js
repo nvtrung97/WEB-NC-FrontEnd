@@ -19,6 +19,7 @@ import { BoxLoading } from 'react-loadingg';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { Player } from 'video-react';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -57,38 +58,40 @@ const Videos = () => {
     const [imageThunal, setImageThunal] = useState(['https://thietkegame.com/wp-content/uploads/2020/03/loading-8bit.jpg']);
     useEffect(() => {
         let mounted = true;
-        contextProduct.getDetailProductById(id)
-            .then(items => {
-                if (mounted) {
-                    setProducts(items.data);
-                    setImageThunal(items.data.url_image);
-                }
-            })
+
         setTimeout(function () {
-            contextProduct.getVideosByProductId(id).then((res) => {
+            contextProduct.getDetailProductById(id)
+                .then(items => {
+                    if (mounted) {
+                        setProducts(items.data);
+                        setImageThunal(items.data.url_image);
+                        contextProduct.getVideosByProductId(id).then((res) => {
+                            for (let item of res.data) {
+                                item.url = item.url.replace("https://drive.google.com/file/d/", "https://drive.google.com/uc?id=");
+                            }
+                            setVideos(res.data);
+                            res.data.map((vitemp, index) => {
+                                if (vitemp._id == items.data.videoPause) {
+                                    setVideoSelected(index);
+                                }
+                            });
 
-
-                for (let item of res.data) {
-                    item.url = item.url.replace("https://drive.google.com/file/d/", "https://drive.google.com/uc?id=");
-                }
-                console.log();
-                setVideos(res.data);
-            })
+                        })
+                    }
+                })
         }, 0);
         return () => mounted = false;
     }, []);
     let myRef = React.createRef();
-    const handlChangeVideos = (e) => {
-
-        console.log(e.target.innerHTML);
+    const handlChangeVideos = (videoId) => {
+        contextProduct.VideoPause(id, videoId);
         videos.map((vitemp, index) => {
-            if (vitemp.name == e.target.innerHTML) {
+            if (vitemp._id == videoId) {
                 setVideoSelected(index);
-                console.log(vitemp);
             }
-        })
+        });
     }
- 
+
     return (
         <div className="app123">
             {
@@ -99,10 +102,23 @@ const Videos = () => {
                             {
                                 videos.map((vi, index) => (
                                     (index == videoSelected) ?
-                                        <video width={600} height={400} poster={imageThunal} controls >
-                                            <source src={vi.url} type="video/mp4" /> : ''
-                                        </video> : ''
-                ))
+                                        // <video width={600} height={400} poster={imageThunal} controls >
+                                        //     <source src={vi.url} type="video/mp4" /> : ''
+                                        // </video> 
+
+                                        // <Player width={600} height={400}>
+                                        //     <source src={vi.url} />
+                                        // </Player>
+                                        <Player
+                                            playsInline
+                                            poster={imageThunal}
+                                            src={vi.url}
+                                            fluid={false}
+                                            width={600}
+                                            height={400}
+                                        />
+                                        : ''
+                                ))
                             }
                             <Accordion style={{
                                 background: 'none',
@@ -150,7 +166,7 @@ const Videos = () => {
                                 {videos.map((video) => (
                                     <li key={`section-${video._id}`} className={classes.listSection} style={{ cursor: 'pointer' }} >
                                         <ul className={classes.ul} style={{ marginBottom: '10px' }}>
-                                            <ListItemText primary={`${video.name}`} onClick={handlChangeVideos} data-item={video} />
+                                            <ListItemText primary={`${video.name}`} onClick={() => { handlChangeVideos(video._id) }} data-item={video} />
                                             <hr className="seperator" style={{ opacity: '0.5', maxWidth: '350px', marginLeft: '50px' }} />
                                         </ul>
                                     </li>

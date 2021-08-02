@@ -20,12 +20,17 @@ export const ProductProvider = ({ children }) => {
         const response = await api.get('/products', { params: Query });
         return response;
     }
+    async function VideoPause(productId, VideoId) {
+        let entity = { video_id: VideoId };
+        const response = await api.put(`/products/${productId}/pause`, entity);
+        return response;
+    }
     async function getSearch(query) {
         console.log(query);
         let response;
         if (!query.keyword && query.category_id) {
-            let params = { ...query }  
-           
+            let params = { ...query }
+
             response = await api.get('/products', { params: params });
             return response;
         }
@@ -51,7 +56,7 @@ export const ProductProvider = ({ children }) => {
         return response;
     }
     return (
-        <ProductContext.Provider value={{ createReview, getAllReviews, getVideosByProductId, getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch, getDetailProductById }}>
+        <ProductContext.Provider value={{ VideoPause, createReview, getAllReviews, getVideosByProductId, getHighlightWeek, mostOfViews, getLastest, getProductByQuery, getSearch, getDetailProductById }}>
             {children}
         </ProductContext.Provider>
     );

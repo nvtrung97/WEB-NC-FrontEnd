@@ -17,7 +17,6 @@ import { BoxLoading } from 'react-loadingg';
 import { useHistory } from "react-router-dom";
 import 'react-notifications-component/dist/theme.css';
 import {store} from 'react-notifications-component'
-import ReactNotification from 'react-notifications-component'
 import 'animate.css';
 import _ from 'lodash';
 function Copyright() {
@@ -73,10 +72,6 @@ export default function UpdateProfile(props) {
             setPhone(props.user.phone);
         }
     }, [])
-    function validateEmail(email) {
-        var re = /\S+@\S+\.\S+/;
-        return re.test(email);
-    }
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
@@ -88,7 +83,7 @@ export default function UpdateProfile(props) {
             context.changePassword(entity).then((res) => {
                 addNoti('Update password successfully','success', 'Update')
             }).catch((er)=>{
-                alert("Old password wrong");
+                addNoti('Update password failed','danger', 'Notification');
                 setLoading(false);
                 return;
             })
@@ -101,11 +96,14 @@ export default function UpdateProfile(props) {
             phone: phone,
         }
         context.updateProfile(entityupdate).then((res) => {
-           
-            addNoti('Update profile successfully','success', 'Update')
-        });
-        alert('Update success')
-        setLoading(false);
+            addNoti('Update profile successfully','success', 'Notification');
+            alert('ok')
+            setLoading(false);
+        }).catch((err)=>{
+            addNoti('Update profile failed','danger', 'Notification');
+            setLoading(false);
+        })
+       
     }
     const addNoti = (mes, type, title) => {
         store.addNotification({
@@ -130,10 +128,8 @@ export default function UpdateProfile(props) {
         if (event.target.name == 'full_name') setFullname(event.target.value);
         if (event.target.name == 'otp') setOTP(event.target.value);
     }
-
     return (
         <Container component="main" maxWidth="xs">
-               <ReactNotification />
             <CssBaseline />
             {loading === true ? <BoxLoading /> : ''}
             <div className={classes.paper}>
@@ -141,8 +137,6 @@ export default function UpdateProfile(props) {
                     Update Profile
                 </Typography>
                 <div>
-
-
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>

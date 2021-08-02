@@ -35,7 +35,6 @@ const Search = () => {
     
     let entity = { ...query, order: e.target.value, }
     if (checked != 0) entity.category_id = checked;
-    console.log('score', entity);
     history.push(`/search?${serialize(entity)}`);
     window.location.reload();
   }

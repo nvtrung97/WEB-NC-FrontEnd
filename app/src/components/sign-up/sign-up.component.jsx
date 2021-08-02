@@ -16,6 +16,10 @@ import { useAuth } from '../../contexts/auth.context';
 import { BoxLoading } from 'react-loadingg';
 import { useHistory } from "react-router-dom";
 import _ from 'lodash';
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -76,18 +80,21 @@ export default function SignUp() {
     setLoading(true);
     event.preventDefault();
     if (!validateEmail(email)) {
-      alert("Please input right email!");
+      addNoti('Please input right email!', 'danger', 'Notification');
       setLoading(false);
+      setSubmitNEW(false)
       return;
     }
     if (password != repassword) {
-      alert("Password not equal!");
+      addNoti('Password not equal!', 'danger', 'Notification');
       setLoading(false);
+      setSubmitNEW(false)
       return;
     }
     if (password == '' || address == '' || fullname == '') {
-      alert("Please fill all field");
+      addNoti('Please fill all field', 'danger', 'Notification');
       setLoading(false);
+      setSubmitNEW(false)
       return;
     }
     let entity = {
@@ -101,11 +108,11 @@ export default function SignUp() {
       .signUp(entity)
       .catch((error) => {
         if (_.has(error, 'response'))
-          console.log(error.response);
-        if (error.response.data.message.includes('exists')) {
-          alert("This email has been registered before");
-        } else alert("SOMETHING WRONG!");
+          if (error.response.data) {
+            addNoti('This email has been registered before', 'danger', 'Notification');
+          } else addNoti('Something wrong', 'danger', 'Notification')
         setLoading(false);
+        setSubmitNEW(false)
         setSubmitNEW(false)
         return;
       })
@@ -127,7 +134,7 @@ export default function SignUp() {
       .catch((error) => {
         if (_.has(error, 'response'))
           if (error.response.data.message.includes('Wrong')) {
-            alert("Wrong OTP");
+            addNoti('Wrong OTP', 'danger', 'Notification')
           }
         setLoading(false);
         setSubmitOTP(false);
@@ -137,7 +144,9 @@ export default function SignUp() {
         setLoading(false);
         if (_.has(res, 'status'))
           if (res.status === 201) {
-            history.push('/signin');
+            addNoti('Successful account registration', 'success', 'Notification');
+            setTimeout(function () { history.push('/signin'); }, 3000);
+
           }
       });
   };
@@ -151,7 +160,21 @@ export default function SignUp() {
     if (event.target.name == 'full_name') setFullname(event.target.value);
     if (event.target.name == 'otp') setOTP(event.target.value);
   }
-
+  const addNoti = (mes, type, title) => {
+    store.addNotification({
+      title: title,
+      message: mes,
+      type: type,
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss: {
+        duration: 2000,
+        onScreen: true
+      }
+    });
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
