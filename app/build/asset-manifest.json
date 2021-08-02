@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.4e412f49.chunk.css",
-    "main.js": "/static/js/main.48b7376a.chunk.js",
-    "main.js.map": "/static/js/main.48b7376a.chunk.js.map",
+    "main.js": "/static/js/main.bac6963a.chunk.js",
+    "main.js.map": "/static/js/main.bac6963a.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.dc8fc391.js",
     "runtime-main.js.map": "/static/js/runtime-main.dc8fc391.js.map",
     "static/css/2.bb4864b8.chunk.css": "/static/css/2.bb4864b8.chunk.css",
-    "static/js/2.dfd07e17.chunk.js": "/static/js/2.dfd07e17.chunk.js",
-    "static/js/2.dfd07e17.chunk.js.map": "/static/js/2.dfd07e17.chunk.js.map",
+    "static/js/2.eb86e3a0.chunk.js": "/static/js/2.eb86e3a0.chunk.js",
+    "static/js/2.eb86e3a0.chunk.js.map": "/static/js/2.eb86e3a0.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.7ba6f43ff1c4e32d283e01c3200842af.js": "/precache-manifest.7ba6f43ff1c4e32d283e01c3200842af.js",
+    "precache-manifest.b9713b8bcea73850f15c11d5ed3ffcad.js": "/precache-manifest.b9713b8bcea73850f15c11d5ed3ffcad.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.bb4864b8.chunk.css.map": "/static/css/2.bb4864b8.chunk.css.map",
     "static/css/main.4e412f49.chunk.css.map": "/static/css/main.4e412f49.chunk.css.map",
-    "static/js/2.dfd07e17.chunk.js.LICENSE.txt": "/static/js/2.dfd07e17.chunk.js.LICENSE.txt",
+    "static/js/2.eb86e3a0.chunk.js.LICENSE.txt": "/static/js/2.eb86e3a0.chunk.js.LICENSE.txt",
     "static/media/camp-k-12-logo.svg": "/static/media/camp-k-12-logo.4ff6c7b7.svg",
     "static/media/community.svg": "/static/media/community.15b2a5c8.svg",
     "static/media/group-40.svg": "/static/media/group-40.9aa55bf5.svg",
@@ -34,8 +34,8 @@
   "entrypoints": [
     "static/js/runtime-main.dc8fc391.js",
     "static/css/2.bb4864b8.chunk.css",
-    "static/js/2.dfd07e17.chunk.js",
+    "static/js/2.eb86e3a0.chunk.js",
     "static/css/main.4e412f49.chunk.css",
-    "static/js/main.48b7376a.chunk.js"
+    "static/js/main.bac6963a.chunk.js"
   ]
 }

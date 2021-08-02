@@ -120,7 +120,7 @@ function SignIn(props) {
               window.location.reload(false);
             }, 2000);
           }
-      });
+      })
 
   }
   const googleResponse = (response) => {
@@ -135,11 +135,7 @@ function SignIn(props) {
       .signIn(entity)
       .catch((error) => {
         setLoading(false);
-        console.log(error.response);
-        if (_.has(error, 'response')) {
-          addNoti('Somethings wrong', 'danger', 'Notification');
-
-        }
+        addNoti('Somethings wrong (Maybe you deleted by admin)', 'danger', 'Notification');
       })
       .then((res) => {
         if (_.has(res, 'status'))
