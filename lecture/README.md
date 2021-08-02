@@ -1,14 +1,9 @@
-# React Admin Dashboard with Multiple Themes
-
-    Build React Admin Dashboard with Multiple Themes | React Admin Panel CSS | ReactJS
-
-# Video
-
-    https://youtu.be/q8cabjyUTVY
-
-# Description
-
-    We will Build React Admin Dashboard with Multiple Themes | React Admin Panel CSS | ReactJS
+# Đồ án môn webnc
+Đồ án được làm ba page nhỏ
+# Build production
+```
+    ./devops.sh
+```
 
 # Resource
 

@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import ThemeAction from '../../redux/actions/ThemeAction'
 import ReactNotifications from 'react-notifications-component';
+
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 const Layout = () => {

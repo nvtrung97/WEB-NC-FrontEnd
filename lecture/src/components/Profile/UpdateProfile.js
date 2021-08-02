@@ -16,7 +16,6 @@ import { BoxLoading } from 'react-loadingg';
 import { useHistory } from "react-router-dom";
 import 'react-notifications-component/dist/theme.css';
 import {store} from 'react-notifications-component'
-import ReactNotification from 'react-notifications-component'
 import 'animate.css';
 import _ from 'lodash';
 function Copyright() {
@@ -81,9 +80,9 @@ export default function UpdateProfile(props) {
                 password: newpassword
             }
             context.changePassword(entity).then((res) => {
-                addNoti('Update password successfully','success', 'Update')
+                addNoti('Update password successfully','success', 'Notification')
             }).catch((er)=>{
-                alert("Old password wrong");
+                addNoti('Old password wrong','danger', 'Notification')
                 setLoading(false);
                 return;
             })
@@ -96,10 +95,10 @@ export default function UpdateProfile(props) {
             phone: phone,
         }
         context.updateProfile(entityupdate).then((res) => {
-           
-            addNoti('Update profile successfully','success', 'Update')
-        });
-        alert('Update success')
+            addNoti('Update profile successfully','success', 'Notification')
+        }).catch(()=>{
+            addNoti('Update profile failed','danger', 'Notification')
+        })
         setLoading(false);
     }
     const addNoti = (mes, type, title) => {
@@ -128,7 +127,6 @@ export default function UpdateProfile(props) {
 
     return (
         <Container component="main" maxWidth="xs">
-               <ReactNotification />
             <CssBaseline />
             {loading === true ? <BoxLoading /> : ''}
             <div className={classes.paper}>
@@ -136,8 +134,6 @@ export default function UpdateProfile(props) {
                     Update Profile
                 </Typography>
                 <div>
-
-
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
